@@ -23,6 +23,7 @@ All the information, which we will aquire in the process will be put into a rela
 As of now, we will put the character traits at the end of our current development pipeline. This presents a hole now topic and may be a subsequent task we are approaching, once we have determined the relations and keywords. 
 
 (3) Data Analysis
+
 The bible is well documented. So well, there are actual GitHub Repositories, which have put its content to an XML/JSON/SQL state. A repository like this is https://github.com/godlytalias/Bible-Database. Here, the bible is available in multiple languages, from which we will use the english language. The document structure of the json file follows an easy structure which will make it well accessable to use:
 {"Book":[
 	{
