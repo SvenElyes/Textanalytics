@@ -1,0 +1,46 @@
+# Felix Munzlinger
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+@EXPLICIT
+# PyTorch: to use the learning envirmonent
+https://repo.anaconda.com/pkgs/main/linux-64/pytorch-1.4.0-cuda92py38h488537e_0.tar.bz2
+
+# Cuda: to process the data on our GPU
+https://repo.anaconda.com/pkgs/main/linux-64/cudatoolkit-11.0.221-h6bb024c_0.tar.bz2
+
+# Pandas: To load in a datastructure and further process it + hand it to the force directed graph implementation
+https://conda.anaconda.org/anaconda/linux-64/pandas-0.25.1-py37he6710b0_0.tar.bz2
+
+# Numpy: to do calculations
+https://repo.anaconda.com/pkgs/main/linux-64/numpy-1.16.4-py37h7e9f1db_0.conda
+https://repo.anaconda.com/pkgs/main/linux-64/numpy-base-1.9.3-py37hdbf6ddf_7.tar.bz2
+
+# scipy: also to do calculations
+https://repo.anaconda.com/pkgs/main/linux-64/scipy-1.5.2-py39hf56f3a7_0.tar.bz2
+
+# Sklearn: to process some of the dependencies such as k-nearest neighbor
+https://repo.anaconda.com/pkgs/main/linux-64/scikit-rf-0.15.4-py38_0.tar.bz2
+
+# Spacy: to do natural language processing
+https://repo.anaconda.com/pkgs/main/linux-64/spacy-2.3.2-py38hfd86e86_0.tar.bz2
+
+# Argparse: to hand over arguments to the file we are going to execute; to be flexible with the execution on a server 
+https://conda.anaconda.org/anaconda/linux-64/configargparse-0.14.0-py38_0.tar.bz2
+
+# tqdm: to display the procession the current task is in; quite nice to visualize
+https://repo.anaconda.com/pkgs/main/linux-64/tqdm-4.31.1-py37_1.tar.bz2
+
+# Faiss: to cluster the keyword extraction data
+https://conda.anaconda.org/pytorch/linux-64/faiss-gpu-1.5.3-py37h1a5d453_0.tar.bz2
+
+# yaml / ujson: Dependend on which bible-file we are reading there is (i) a JSON reader and (ii) a XML reader, as both are available on the GitRepo in reference
+https://conda.anaconda.org/anaconda/linux-64/ujson-4.0.1-py38he6710b0_0.tar.bz2
+https://repo.anaconda.com/pkgs/main/linux-64/pyyaml-5.3.1-py38h7b6447c_1.tar.bz2
+
+# also the following packages will be used:
+# os
+# sys
+# regular expressions
+
+
