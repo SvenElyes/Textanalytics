@@ -44,12 +44,22 @@ For this reason we don't really have to do much data pre-processing, as it is al
 is creating a Pandas DataFrame which has the same structure as our json objects. Because of this, we create a CSV file from which we will perform all further actions and analysis.
 
 
-##################
-Basic Statistic fehlt hier noch
 Our DataFrame has 31102 rows, each containing an individual verse of the Bible. 
-There are 66 individual books of the bible.
+There are 66 individual books in the bible.
+
+A lot of information about the Dataset is equal to the information regarding the Bible in general.
+
+For example: There are  1,189 chapters in the Bible (on average, 18 per book).
+
+https://en.wikipedia.org/wiki/Chapters_and_verses_of_the_Bible
 
 
-##################
+Example:
+This is the .head() from the Dataframe containing the bible
+
+   chapter  verse                                               text translation_id book_id book_name
+0        1      1  In the beginning God created the heavens and t...            ASV     Gen   Genesis
+1        1      2  And the earth was waste and void; and darkness...            ASV     Gen   Genesis
+2        1      3  And God said, Let there be light: and there wa...            ASV     Gen   Genesis
 
 (4) Current Code State
