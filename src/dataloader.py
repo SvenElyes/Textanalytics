@@ -1,103 +1,93 @@
 import json
-#if you want to look at the bible, from a clear perspective, look at the 
-with open("bible/bible.json") as bible:
-    bible = json.load(bible)
+import numpy as np
+import pandas as pd
 
-#Matthew is the first book of the new testatement
+
+# a list of all books.
 books = [
-    'Genesis',
-    'Exodus',
-    'Leviticus',
-    'Numbers',
-    'Deuteronomy',
-    'Joshua',
-    'Judges',
-    'Ruth',
-    '1 Samuel',
-    '2 Samuel',
-    '1 Kings',
-    '2 Kings',
-    '1 Chronicles',
-    '2 Chronicles',
-    'Ezra',
-    'Nehemiah',
-    'Esther',
-    'Job',
-    'Psalm',
-    'Proverbs',
-    'Ecclesiastes',
-    'Song of Solomon',
-    'Isaiah',
-    'Jeremiah',
-    'Lamentations',
-    'Ezekiel',
-    'Daniel',
-    'Hosea',
-    'Joel',
-    'Amos',
-    'Obadiah',
-    'Jonah',
-    'Micah',
-    'Nahum',
-    'Habakkuk',
-    'Zephaniah',
-    'Haggai',
-    'Zechariah',
-    'Malachi',
-    'Matthew',
-    'Mark',
-    'Luke',
-    'John',
-    'Acts',
-    'Romans',
-    '1 Corinthians',
-    '2 Corinthians',
-    'Galatians',
-    'Ephesians',
-    'Philippians',
-    'Colossians',
-    '1 Thessalonians',
-    '2 Thessalonians',
-    '1 Timothy',
-    '2 Timothy',
-    'Titus',
-    'Philemon',
-    'Hebrews',
-    'James',
-    '1 Peter',
-    '2 Peter',
-    '1 John',
-    '2 John',
-    '3 John',
-    'Jude',
-    'Revelation'
+    "Genesis",
+    "Exodus",
+    "Leviticus",
+    "Numbers",
+    "Deuteronomy",
+    "Joshua",
+    "Judges",
+    "Ruth",
+    "1 Samuel",
+    "2 Samuel",
+    "1 Kings",
+    "2 Kings",
+    "1 Chronicles",
+    "2 Chronicles",
+    "Ezra",
+    "Nehemiah",
+    "Esther",
+    "Job",
+    "Psalm",
+    "Proverbs",
+    "Ecclesiastes",
+    "Song of Solomon",
+    "Isaiah",
+    "Jeremiah",
+    "Lamentations",
+    "Ezekiel",
+    "Daniel",
+    "Hosea",
+    "Joel",
+    "Amos",
+    "Obadiah",
+    "Jonah",
+    "Micah",
+    "Nahum",
+    "Habakkuk",
+    "Zephaniah",
+    "Haggai",
+    "Zechariah",
+    "Malachi",
+    "Matthew",
+    "Mark",
+    "Luke",
+    "John",
+    "Acts",
+    "Romans",
+    "1 Corinthians",
+    "2 Corinthians",
+    "Galatians",
+    "Ephesians",
+    "Philippians",
+    "Colossians",
+    "1 Thessalonians",
+    "2 Thessalonians",
+    "1 Timothy",
+    "2 Timothy",
+    "Titus",
+    "Philemon",
+    "Hebrews",
+    "James",
+    "1 Peter",
+    "2 Peter",
+    "1 John",
+    "2 John",
+    "3 John",
+    "Jude",
+    "Revelation",
 ]
-# in the json file, the books are titled as chapters, while the word book is being used to reference the whole bible.
+
+# this function returns two Dataframes, the first being the old Testament and the second being the new Testament
+# Matthew is the first book of the new testatement
+def get_old_new_testament():
+    return True
 
 
-def get_book(bookname):
-    index = books.index(bookname)
-    return bible["Book"][index]
+# Function to get the Panda Dataframe
+def get_df_bible():
+    # This file loads the bible from the bibleTA.csv which was created in bibleToCSV.py
+    df_bible = pd.read_csv("bibleTA.csv")
+    df_bible.drop(["Unnamed: 0"], axis=1, inplace=True)
+    return df_bible
 
-def get_verseid(verseid):
-    #do we iterate over all books?
-    #verseid example 00000003
-    booktotal= len(books)
-    for bookindex in range(0,booktotal):
-        versetotal =len(bible["Book"][bookindex]['Chapter'])
-        for verseindex in range (0,versetotal):
-            for key in bible["Book"][bookindex]['Chapter'][verseindex]['Verse']:
-                #print(key["Verseid"],key["Verse"])
-                if key["Verseid"] == verseid:
-                    #print(key["Verse"])
-                    return key["Verse"],bookindex
-def old_or_new_testament(bookname):
-    matthewindex = books.index('Matthew')
-    bookindex= books.index(bookname)
-    if matthewindex < bookindex :
-        return "new"
-    else:
-        return "old"
-print(get_verseid("65021019"))
-print(old_or_new_testament("Genesis"))
 
+df_bible = get_df_bible()
+# TODO think of new functions which will ensures less problems in the actual workflow
+print(df_bible.tail(1))
+print(len(books))
