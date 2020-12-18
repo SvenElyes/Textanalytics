@@ -64,3 +64,12 @@ This is the .head() from the Dataframe containing the bible
 2        1      3  And God said, Let there be light: and there wa...            ASV     Gen   Genesis
 ```
 (4) Current Code State
+
+The written code progress is in early state. There exists a class for loading the bible data into a pandas DataFrame and first versions of the character and relation classes. 
+The relation class stores all information about the relation between two characters. Note that a relation may not be equally strong or positive for both characters, which makes it necessary to create two relations for two characters: Char1 -> Char2 and Char2 -> Char1.
+The character class is used to store all information about characters like name, relations, aliases, etc.
+
+Both classes have to be extended by methods to process the information stored in their attributes.
+
+Within the next weeks there will be classes and functions provided for information extraction and processing.
+See (2) for responsibility and method.
