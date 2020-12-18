@@ -10,7 +10,7 @@ https://github.com/jomazi/Python-Default
 
 • Mail Addresses: felix.munzlinger@gmail.com, joe.klueh@gmx.de, reichelt@cl.uni-heidelberg.de, rz227@uni-heidelberg.de
 
-• Existing Code Fragments: Jake! (https://www.sciencedirect.com/science/article/pii/S0020025519308588) - to do the keyword extraction, Austin Taylor (http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-chart-python-force-directed/) - to create a force directed network diagram to outline a relation graph,
+• Existing Code Fragments: Jake! (https://www.sciencedirect.com/science/article/pii/S0020025519308588) - to do the keyword extraction, Austin Taylor (http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-chart-python-force-directed/) - to create a force directed network diagram to outline a relation graph, NeuralCoref (https://github.com/huggingface/neuralcoref) - to get co-reference resolution
 
 • Utilized libraries: Please find the requirements.txt file attached to our repository
 
