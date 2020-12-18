@@ -73,10 +73,11 @@ books = [
     "Revelation",
 ]
 
+
 # this function returns two Dataframes, the first being the old Testament and the second being the new Testament
 # Matthew is the first book of the new testatement
 def get_old_new_testament():
-    return True
+    pass  # TODO implement
 
 
 # Function to get the Panda Dataframe
@@ -87,7 +88,8 @@ def get_df_bible():
     return df_bible
 
 
-df_bible = get_df_bible()
-# TODO think of new functions which will ensures less problems in the actual workflow
-print(df_bible.tail(1))
-print(len(books))
+if __name__ == "__main__":
+    df_bible = get_df_bible()
+    # TODO think of new functions which will ensures less problems in the actual workflow
+    print(df_bible.tail(1))
+    print(len(books))
