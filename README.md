@@ -17,7 +17,7 @@ https://github.com/jomazi/Python-Default
 
 * Utilized libraries: please find the [requirements.txt](https://github.com/SvenElyes/Textanalytics/blob/main/requirements.txt) file in our repository
 
-* Contributions: In addition to our commit history, you may also refer to our GitHub issues. All members contribute to planning of the project as well as the write-up of the reports.
+* Contributions: In addition to our commit history, you may also refer to our GitHub issues. All members contribute to planning of the project as well as the write-up of the reports. Also, please note that Aileen commited changes as both "aileen-reichelt" and "Aileen Reichelt".
 
 ## (2) Project State
 
