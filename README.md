@@ -34,38 +34,22 @@ As of now, we will put the character traits at the end of our current developmen
 
 (3) Data Analysis
 
-The bible is well documented. So well, there are actual GitHub Repositories, which have put its content to an XML/JSON/SQL state. A repository like this is https://github.com/godlytalias/Bible-Database. Here, the bible is available in multiple languages, from which we will use the english language. The document structure of the json file follows an easy structure which will make it well accessable to use:
-{"Book":[
-
-	{
-	
-		"Chapter":[
-		
-		{
-		
-			"Verse":[
-			
-			{
-			
-				"Verseid":"00000000",
+The bible is well documented. So well, there are actual GitHub Repositories, which have put its content to an XML/JSON/SQL state. A repository like this is https://github.com/bibleapi/bibleapi-bibles-json. Here, the bible is available in multiple languages, from which we will use the english language. The document structure of the json file follows an easy structure which will make it well accessable to use:
+{"chapter":1,"verse":1,"text":"In the beginning God created the heavens and the earth.","translation_id":"ASV","book_id":"Gen","book_name":"Genesis"}
+{"chapter":1,"verse":2,"text":"And the earth was waste and void; and darkness was upon the face of the deep: and the Spirit of God moved upon the face of the waters","translation_id":"ASV","book_id":"Gen","book_name":"Genesis"}
+{"chapter":1,"verse":3,"text":"And God said, Let there be light: and there was light.","translation_id":"ASV","book_id":"Gen","book_name":"Genesis"}
+...
 				
-				"Verse":"In the beginning God created the heaven and the earth."
-				
-			},
-			
-			{
-			
-				"Verseid":"00000001",
-				
-				"Verse":"And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters."
-				
-			},....
-				
-For this reason we don't really have to do much data pre-processing, as it is already in a quite confortable state. 
+For this reason we don't really have to do much data pre-processing, as it is already in a quite confortable state. The only thing we do in terms of processing
+is creating a Pandas DataFrame which has the same structure as our json objects. Because of this, we create a CSV file from which we will perform all further actions and analysis.
 
 
 ##################
 Basic Statistic fehlt hier noch
+Our DataFrame has 31102 rows, each containing an individual verse of the Bible. 
+There are 66 individual books of the bible.
+
+
 ##################
 
 (4) Current Code State
