@@ -1,4 +1,4 @@
-# Textanalytics
+# An Investigation of the Bible: Generating Multi-faceted Character Profiles
 
 https://github.com/jomazi/Python-Default
 
