@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 
 
-# a list of all books.
 books = [
     "Genesis",
     "Exodus",
@@ -74,16 +73,29 @@ books = [
 ]
 
 
-# this function returns two Dataframes, the first being the old Testament and the second being the new Testament
-# Matthew is the first book of the new testatement
-def get_old_new_testament():
-    pass  # TODO implement
+def get_old_new_testament(whole_bible):
+    """Splits bible dataframe into old and new testament dataframes
+
+    Matthew is the first book of the new testatement, therefore the split occurs before this book's first verse.
+
+    :type whole_bible: pandas.DataFrame
+    :param whole_bible: entirety of the bible as dataframe, as created by get_df_bible()
+    :return: separated old and new testament in tuple (old, new)
+    :rtype: tuple
+    
+    """
+    first_matthew_verse = whole_bible.index[
+        (whole_bible["book_id"] == "Matt") & (whole_bible["verse"] == 1) & (whole_bible["chapter"] == 1)].tolist()[0]
+
+    old_testament_df = whole_bible[:(first_matthew_verse-1)]
+    new_testament_df = whole_bible[first_matthew_verse:]
+
+    return old_testament_df, new_testament_df
 
 
-# Function to get the Panda Dataframe
 def get_df_bible():
-    # This file loads the bible from the bibleTA.csv which was created in bibleToCSV.py
-    df_bible = pd.read_csv("bibleTA.csv")
+    """Reads bible CSV file into pandas dataframe"""
+    df_bible = pd.read_csv("bibleTA.csv")  # created in bibleToCSV.py
     df_bible.drop(["Unnamed: 0"], axis=1, inplace=True)
     return df_bible
 
