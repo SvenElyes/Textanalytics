@@ -11,16 +11,16 @@ class Relation:
 
     def __lt__(self, other):
         if self.liking >= other.liking:
-            return false
-        else: return true
+            return False
+        else: return True
 
     def __gt__(self, other):
         if self.liking <= other.liking:
-            return false
-        else: return true 
+            return False
+        else: return True 
         
-    self.liking = property(get_liking, set_liking)
-    self.intensity = property(get_intensity, set_intensity)
+    liking = property(get_liking, set_liking)
+    intensity = property(get_intensity, set_intensity)
     
     def influence_positive(self):
         self.liking += 1
