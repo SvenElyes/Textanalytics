@@ -6,6 +6,9 @@
 # PyTorch: to use the learning envirmonent
 https://repo.anaconda.com/pkgs/main/linux-64/pytorch-1.4.0-cuda92py38h488537e_0.tar.bz2
 
+#Python: V.3.9.1
+https://repo.anaconda.com/pkgs/main/linux-64/python-3.9.1-hdb3f193_2.tar.bz2
+
 # Cuda: to process the data on our GPU
 https://repo.anaconda.com/pkgs/main/linux-64/cudatoolkit-11.0.221-h6bb024c_0.tar.bz2
 
