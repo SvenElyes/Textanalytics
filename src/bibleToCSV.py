@@ -17,4 +17,4 @@ for index in range(len(bible)):
     df_bible.loc[index] = bible[index]
 
 # So we dont have to go through this process each time, we save the DataFrame as a CSV, so we can later load it from there
-df_bible.to_csv(path_or_buf="bibleTA.csv")
+df_bible.to_csv(path_or_buf="src/bibleTA.csv")
