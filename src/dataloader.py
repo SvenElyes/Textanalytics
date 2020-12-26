@@ -104,4 +104,4 @@ if __name__ == "__main__":
     df_bible = get_df_bible()
     # TODO think of new functions which will ensures less problems in the actual workflow
     print(df_bible.tail(1))
-    print(len(books))
+    #print(len(books))
