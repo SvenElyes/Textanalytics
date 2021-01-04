@@ -119,6 +119,44 @@ def loadCSV(path = ""):
     df = pd.read_csv(os.path.join(path, "bibleTA_Emotion.csv"))
     return df
 
+def distill_cluster(cluster):
+    # Lukas Jesus
+    # Markus Jesus
+    # list has to be distinct
+    return cluster
+
+def findcluster(keyword_vectors):
+    # get vector representation
+    # kmeans to get a cluster of k nearest clusters
+    cluster = ""
+    return cluster
+
+def get_book_relation(df_bible):
+    # split df into books
+    # aggregate keywords each person in book
+    # take top x
+    keyword_vectors = ""
+    cluster = findcluster(keyword_vectors)
+    return cluster
+
+def get_chapter_relation(df_bible):
+    # split df into chapters
+    # aggregate keywords each person in book
+    # take top x
+    keyword_vectors = ""
+    cluster = findcluster(keyword_vectors)
+    distilled_cluster = distill_cluster
+    return distilled_cluster
+
+def get_verse_relation(df_bible, load):
+    # dataframe destillation to get data suitable for graph generation
+    df_relation, label = distillDataframe(df_bible, load)
+    df_relation.to_csv(r'bibleTA_distinct_relation.csv')
+
+    # convert distilled data to nodes and edges. Also generate colored edges
+    edges, color_emotion = convertToIGraph(df_relation, label)
+    return label, edges, color_emotion
+
 # main function, which calls all the other functions and can be called from outside.
 # can be given a dataframe (or it loads one from the folder)
 # can also be given load, which loads the last distilled dataframe with distinct character_A to character_B mappings with an aggregated emotion value
@@ -127,22 +165,24 @@ def getGraph(df_bible = None, load = True):
     if df_bible == None:
         df_bible = loadCSV()
         df_bible = pd.DataFrame(data=df_bible)
-
-    # if a dataframe is given, the dataframe has to be re-distilled
-    if df_bible != None:
+    else:
+        # if a dataframe is given, the dataframe has to be re-distilled
         print("Dataframe will be distilled, because outside df_bible was given. load set to TRUE")
         load = True
 
-    # dataframe destillation to get data suitable for graph generation
-    df_relation, label = distillDataframe(df_bible, load)
+    # get relation on verse stage
+    label, edges, color_emotion = get_verse_relation(df_bible, load)
 
-    # convert distilled data to nodes and edges. Also generate colored edges
-    edges, color_emotion = convertToIGraph(df_relation, label)
+    # get relation on chapter stage
+    get_chapter_relation(df_bible)
+
+    # get relation on book stage
+    get_book_relation(df_bible)
 
     # make and plot graph + save to path
     g = Graph.Graph(n=len(label), edges=edges)
-    plotGraph(g, color_emotion, label, path="images", exp="graph")
+    plotGraph(g, color_emotion, label, location="images", exp="graph")
 
 if __name__ == "__main__":
-    getGraph(load= True)
+    getGraph()
 
