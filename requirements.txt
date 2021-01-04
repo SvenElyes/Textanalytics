@@ -1,49 +1,146 @@
-# Felix Munzlinger
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
-@EXPLICIT
-# PyTorch: to use the learning envirmonent
-https://repo.anaconda.com/pkgs/main/linux-64/pytorch-1.4.0-cuda92py38h488537e_0.tar.bz2
-
-#Python: V.3.9.1
-https://repo.anaconda.com/pkgs/main/linux-64/python-3.9.1-hdb3f193_2.tar.bz2
-
-# Cuda: to process the data on our GPU
-https://repo.anaconda.com/pkgs/main/linux-64/cudatoolkit-11.0.221-h6bb024c_0.tar.bz2
-
-# Pandas: To load in a datastructure and further process it + hand it to the force directed graph implementation
-https://conda.anaconda.org/anaconda/linux-64/pandas-0.25.1-py37he6710b0_0.tar.bz2
-
-# Numpy: to do calculations
-https://repo.anaconda.com/pkgs/main/linux-64/numpy-1.16.4-py37h7e9f1db_0.conda
-https://repo.anaconda.com/pkgs/main/linux-64/numpy-base-1.9.3-py37hdbf6ddf_7.tar.bz2
-
-# scipy: also to do calculations
-https://repo.anaconda.com/pkgs/main/linux-64/scipy-1.5.2-py39hf56f3a7_0.tar.bz2
-
-# Sklearn: to process some of the dependencies such as k-nearest neighbor
-https://repo.anaconda.com/pkgs/main/linux-64/scikit-rf-0.15.4-py38_0.tar.bz2
-
-# Spacy: to do natural language processing
-https://repo.anaconda.com/pkgs/main/linux-64/spacy-2.3.2-py38hfd86e86_0.tar.bz2
-
-# Argparse: to hand over arguments to the file we are going to execute; to be flexible with the execution on a server 
-https://conda.anaconda.org/anaconda/linux-64/configargparse-0.14.0-py38_0.tar.bz2
-
-# tqdm: to display the procession the current task is in; quite nice to visualize
-https://repo.anaconda.com/pkgs/main/linux-64/tqdm-4.31.1-py37_1.tar.bz2
-
-# Faiss: to cluster the keyword extraction data
-https://conda.anaconda.org/pytorch/linux-64/faiss-gpu-1.5.3-py37h1a5d453_0.tar.bz2
-
-# yaml / ujson: Dependend on which bible-file we are reading there is (i) a JSON reader and (ii) a XML reader, as both are available on the GitRepo in reference
-https://conda.anaconda.org/anaconda/linux-64/ujson-4.0.1-py38he6710b0_0.tar.bz2
-https://repo.anaconda.com/pkgs/main/linux-64/pyyaml-5.3.1-py38h7b6447c_1.tar.bz2
-
-# also the following packages will be used:
-# os
-# sys
-# regular expressions
-
-
+_libgcc_mutex=0.1=conda_forge
+_openmp_mutex=4.5=1_gnu
+argparse=1.4.0=pypi_0
+attrs=20.3.0=pyhd3eb1b0_0
+backports.csv=1.0.7=py_0
+beautifulsoup4=4.9.3=pyhb0f4dca_0
+brotlipy=0.7.0=py39h38d8fee_1001
+ca-certificates=2019.11.28=hecc5488_0
+cachetools=4.1.1=py_0
+cairo=1.16.0=h9f066cc_1006
+catalogue=1.0.0=pyhd3eb1b0_0
+certifi=2020.12.5=py39h06a4308_0
+cffi=1.14.4=py39he32792d_1
+chardet=4.0.0=py39hf3d152e_0
+cheroot=8.5.1=pyhd8ed1ab_0
+cherrypy=18.6.0=py39hf3d152e_1
+cryptography=3.3.1=py39h3da14fd_0
+cycler=0.10.0=py_2
+cymem=2.0.4=py39h2531618_0
+cython-blis=0.4.1=py39h27cfd23_1
+cytoolz=0.11.0=py39hbd71b63_1
+decorator=4.4.2=py_0
+feedparser=6.0.2=pyh9f0ad1d_0
+fontconfig=2.13.1=h7e3eb15_1002
+freetype=2.10.4=h7ca028e_0
+future=0.18.2=py39hf3d152e_2
+gettext=0.19.8.1=h0b5b191_1005
+gmp=6.2.1=h58526e2_0
+icu=67.1=he1b5a44_0
+idna=2.10=pyh9f0ad1d_0
+jaraco.classes=3.1.0=py_0
+jaraco.collections=3.0.0=py_0
+jaraco.functools=3.0.1=py_0
+jaraco.text=3.2.0=py39hde42818_2
+jellyfish=0.7.2=py39h07f9747_2
+joblib=1.0.0=pyhd8ed1ab_0
+jpeg=9d=h36c2ea0_0
+jsonschema=3.0.2=py39h06a4308_0
+kiwisolver=1.3.1=py39h081fc7a_0
+lcms2=2.11=hcbb858e_1
+ld_impl_linux-64=2.35.1=hea4e1c9_1
+libblas=3.9.0=3_openblas
+libcblas=3.9.0=3_openblas
+libffi=3.3=h58526e2_2
+libgcc-ng=9.3.0=h5dbcf3e_17
+libgfortran-ng=9.3.0=he4bcb1c_17
+libgfortran5=9.3.0=he4bcb1c_17
+libglib=2.66.4=h164308a_1
+libgomp=9.3.0=h5dbcf3e_17
+libiconv=1.16=h516909a_0
+liblapack=3.9.0=3_openblas
+libopenblas=0.3.12=pthreads_h4812303_1
+libpng=1.6.37=h21135ba_2
+libstdcxx-ng=9.3.0=h2ae2ef3_17
+libsvm=323=he1b5a44_1
+libtiff=4.2.0=hdc55705_0
+libuuid=2.32.1=h7f98852_1000
+libwebp-base=1.1.0=h36c2ea0_3
+libxcb=1.13=h14c3975_1002
+libxml2=2.9.10=h68273f3_2
+libxslt=1.1.33=hf705e74_1
+lxml=4.6.2=py39h107f48f_0
+lz4-c=1.9.2=he1b5a44_3
+matplotlib-base=3.3.3=py39h98787fa_0
+more-itertools=8.6.0=pyhd8ed1ab_0
+murmurhash=1.0.5=py39h2531618_0
+mysql-connector-c=6.1.11=h6eb9d5d_1007
+mysqlclient=2.0.1=py39hf149a3a_1
+ncurses=6.2=h58526e2_4
+networkx=2.5=py_0
+nltk=3.4.4=py_0
+numpy=1.19.4=py39hdbf815f_2
+olefile=0.46=pyh9f0ad1d_1
+openssl=1.1.1i=h7f98852_0
+pandas=1.1.5=py39ha9443f7_0
+pattern=3.6.0=pyh9f0ad1d_1
+pcre=8.44=he1b5a44_0
+pdfminer.six=20201018=py_2
+pillow=8.0.1=py39h397ff4d_0
+pip=20.3.3=pyhd8ed1ab_0
+pixman=0.40.0=h36c2ea0_0
+plac=1.1.0=py39h06a4308_0
+portend=2.7.0=pyhd8ed1ab_0
+preshed=3.0.2=py39h2531618_1
+pthread-stubs=0.4=h36c2ea0_1001
+pycairo=1.20.0=py39h08627d8_1
+pycparser=2.20=pyh9f0ad1d_2
+pyemd=0.5.1=py39hd56b5f2_1002
+pyopenssl=20.0.1=pyhd8ed1ab_0
+pyparsing=2.4.7=pyh9f0ad1d_0
+pyphen=0.9.5=py_0
+pyrsistent=0.17.3=py39h27cfd23_0
+pysocks=1.7.1=py39h079e4ff_2
+python=3.9.1=hffdb5ce_2_cpython
+python-dateutil=2.8.1=py_0
+python-docx=0.8.10=py_0
+python-igraph=0.8.3=py39hd24af65_2
+python_abi=3.9=1_cp39
+pytz=2020.5=pyhd8ed1ab_0
+readline=8.0=he28a2e2_2
+repoze.lru=0.7=py_0
+requests=2.25.1=pyhd3deb0d_0
+routes=2.5.1=pyhd8ed1ab_0
+scikit-learn=0.24.0=py39h4dfa638_0
+scipy=1.5.3=py39hee8e79c_0
+setuptools=49.6.0=py39h079e4ff_2
+sgmllib3k=1.0.0=pyh9f0ad1d_0
+simplejson=3.17.2=py39h3811e60_1
+six=1.15.0=pyh9f0ad1d_0
+soupsieve=2.0.1=py_1
+spacy=2.3.5=py39hff7bd54_0
+spacy-model-en_core_web_sm=2.3.1=pyh9f0ad1d_0
+sqlite=3.34.0=h74cdb3f_0
+srsly=1.0.5=py39h2531618_0
+tempora=4.0.1=pyhd8ed1ab_0
+textacy=0.10.0=py39hf3d152e_1
+textblob=0.15.3=pypi_0
+texttable=1.6.3=pyh9f0ad1d_0
+thinc=7.4.5=py39h9a67853_0
+threadpoolctl=2.1.0=pyh5ca1d4c_0
+tk=8.6.10=h21135ba_1
+toolz=0.11.1=py_0
+tornado=6.1=py39hbd71b63_0
+tqdm=4.54.1=pyhd3eb1b0_0
+tzdata=2020d=h516909a_0
+urllib3=1.26.2=pyhd8ed1ab_0
+wasabi=0.8.0=py_0
+wheel=0.36.2=pyhd3deb0d_0
+xorg-kbproto=1.0.7=h14c3975_1002
+xorg-libice=1.0.10=h516909a_0
+xorg-libsm=1.2.3=h84519dc_1000
+xorg-libx11=1.6.12=h516909a_0
+xorg-libxau=1.0.9=h14c3975_0
+xorg-libxdmcp=1.1.3=h516909a_0
+xorg-libxext=1.3.4=h516909a_0
+xorg-libxrender=0.9.10=h516909a_1002
+xorg-renderproto=0.11.1=h14c3975_1002
+xorg-xextproto=7.3.0=h14c3975_1002
+xorg-xproto=7.0.31=h7f98852_1007
+xz=5.2.5=h516909a_1
+zc.lockfile=2.0=py_0
+zlib=1.2.11=h516909a_1010
+zstd=1.4.5=h6597ccf_2
