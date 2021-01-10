@@ -1,3 +1,4 @@
+# may be generated using: conda list --explicit > spec_file.txt
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
