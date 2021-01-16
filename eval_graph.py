@@ -24,7 +24,7 @@ def formate_bible(df_bible):
         names = names.split('|')
         names_remove = names.copy()
 
-        if len(names) >= 2:
+        if len(names) == 2:
             for name in names:
                 for r_name in names_remove:
                     if name != r_name:
