@@ -105,9 +105,9 @@ def main(testament= None):
         pass
     else:
         print("testament not recognized, continued with the hole bible")
-
+    input(df_bible.size)
     # ToDo: may be deleted if names are given
-
+    '''
     file = open('names.txt', 'r')
     names = file.readlines()
     mock_names = []
@@ -118,11 +118,14 @@ def main(testament= None):
             if line not in mock_names:
                 mock_names.append(line)
     file.close()
+    
     df_bible['Characters'] = None
     df_bible['Characters'] = df_bible['Characters'].astype(object)
+    
     df_bible['keywords'] = None
     df_bible['keywords'] = df_bible['keywords'].astype(object)
 
+    
     file = open('keywords.txt', 'r')
     keywords = file.readlines()
     mock_keywords = []
@@ -133,6 +136,7 @@ def main(testament= None):
                 mock_keywords.append(line)
 
     # iterate the desired part of the bible
+    '''
     for i, df_verse in tqdm(df_bible.iterrows()):
         text = df_verse["text"]
 
@@ -140,12 +144,14 @@ def main(testament= None):
         # do baysian classification in the text vor being positive / negative
         # Textblob provides in-build classifiers module to create a custom classifier. it classifies the sentence propability to be positive and negative.
         # since we are using [-1, 1] we are negating the negative propability
-        neg_score, pos_score = [0, 0]
-        #_, neg_score, pos_score = TextBlob(str(text), analyzer=NaiveBayesAnalyzer()).sentiment
-        if neg_score < pos_score:
+        #neg_score, pos_score = [0, 0]
+        _, neg_score, pos_score = TextBlob(str(text), analyzer=NaiveBayesAnalyzer()).sentiment
+        if pos_score > 0.5:
             score_textblob = pos_score
-        else:
+        elif neg_score > 0.5:
             score_textblob = -neg_score
+        else:
+            score_textblob = 0
 
         # we check if the verse includes positive or negative words. positive sentences should probably include positive words.
         # check intersection between bag of words and text
@@ -160,8 +166,21 @@ def main(testament= None):
         else:
             score_bag_of_words = -1.0
 
+        df_bible.loc[i, "tb_emotion"] = score_textblob
+
         # find absolute score for the row pos/neg/neutral and update cell emotion in dataframe
-        score = score_textblob + score_bag_of_words
+
+
+
+        score = score_bag_of_words
+        if score > 0.5:
+            df_bible.loc[i, "bow_emotion"] = 1.0
+        elif score < -0.5:
+            df_bible.loc[i, "bow_emotion"] = -1.0
+        else:
+            df_bible.loc[i, "bow_emotion"] = 0.0
+
+        score = score_bag_of_words + score_textblob
         if score > 0.5:
             df_bible.loc[i, "emotion"] = 1.0
         elif score < -0.5:
@@ -170,19 +189,22 @@ def main(testament= None):
             df_bible.loc[i, "emotion"] = 0.0
 
 
-        rnd_numbers = np.random.randint(0, len(mock_keywords), 3)
-        subset_keywords = [mock_keywords[idx] for idx in rnd_numbers]
-        df_bible.at[i, "keywords"] = subset_keywords
-        # ToDO: delete after character data is given and produce new csv
 
+        #rnd_numbers = np.random.randint(0, len(mock_keywords), 3)
+        #subset_keywords = [mock_keywords[idx] for idx in rnd_numbers]
+        #df_bible.at[i, "keywords"] = subset_keywords
+        # ToDO: delete after character data is given and produce new csv
+        '''
         df_bible.loc[i, "emotion"] = np.random.randint(-4, 4, 1)
         rnd_numbers = np.random.randint(0, 5, 1)
         rnd_idx = np.random.randint(0, len(mock_names), rnd_numbers)
         subset_names = [mock_names[idx] for idx in rnd_idx]
         df_bible.at[i, "Characters"] = subset_names
         #delete until here
+        '''
+        if i % 1000 == 0:
+            df_bible.to_csv(r'bibleTA_Emotion.csv')
     df_bible.to_csv(r'bibleTA_Emotion.csv')
-
 
 if __name__ == "__main__":
     main()
