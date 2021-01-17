@@ -30,7 +30,9 @@ def get_text_for_character(character_name):
     """Selects text relevant for character
 
     This function selects rows of a DataFrame (the bible data frame) for specified character by choosing those verses
-    in which the character's name appears.
+    in which the character's name appears. Then, it reduces or expands this relevant context to 20 words -
+    the ten words before and after the character's name.
+    It does so by looking up the previous/following verse by index in the bible data frame.
 
     :type character_name: str
     :param character_name: the character for which verses should be selected, e. g. "Jesus"
