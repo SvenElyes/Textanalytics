@@ -1,5 +1,4 @@
 import json
-import numpy as np
 import pandas as pd
 
 
@@ -95,7 +94,7 @@ def get_old_new_testament(whole_bible):
 
 def get_df_bible():
     """Reads bible CSV file into pandas dataframe"""
-    df_bible = pd.read_csv("src/bibleTA.csv")  # created in bibleToCSV.py
+    df_bible = pd.read_csv("bibleTA.csv")  # created in bibleToCSV.py
     df_bible.drop(["Unnamed: 0"], axis=1, inplace=True)
     return df_bible
 

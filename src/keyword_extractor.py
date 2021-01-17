@@ -25,7 +25,6 @@ def get_text_for_chapter(chapter, book_id):
 
 
 # verses with character name
-# TODO: instead of a verse, use 20 word context around character (e.g. in case name appears at very start of verse)
 
 def get_text_for_character(character_name):
     """Selects text relevant for character
@@ -39,8 +38,44 @@ def get_text_for_character(character_name):
     :rtype: str
     """
     bible_df = dataloader.get_df_bible()
-    character_df = bible_df[bible_df['text'].str.contains("Jesus")]
-    character_texts = character_df['text'].tolist()
+    character_df = bible_df[bible_df['text'].str.contains(character_name)]
+    character_verses = dict(zip(character_df.index, character_df.text))  # FIXME in order to not iterate over df - good?
+    character_texts = []
+
+    for i, verse in character_verses.items():
+        split_verse = verse.split(character_name)  # "He was Jesus and Jesus was good" -> ["He was", "and", "was good"]
+        for index, verse_part in enumerate(split_verse[:-1]):
+            context_before = character_name.join(split_verse[:index + 1])  # index=1: "Jesus".join(["He was", "and"])
+            context_size_before = len(context_before.split(" "))
+            context_after = character_name.join(split_verse[index + 1:])  # index=0: "Jesus".join(["and", "was good"])
+            context_size_after = len(context_after.split(" "))
+
+            added_verses = 0
+            while context_size_before < 10:
+                added_verses += 1
+                if i - added_verses > 0:
+                    context_before = bible_df.loc[i - added_verses, 'text'] + " " + context_before
+                    context_size_before = len(context_before.split(" "))
+                else:
+                    break
+
+            added_verses = 0
+            while context_size_after < 10:
+                added_verses += 1
+                if i + added_verses < len(bible_df.index):
+                    context_after += (" " + bible_df.loc[i + added_verses, 'text'])
+                    context_size_after = len(context_after.split(" "))
+                else:
+                    break
+
+            if context_size_before > 10:
+                context_before = " ".join(context_before.split(" ")[:10])
+            if context_size_after > 10:
+                context_after = " ".join(context_after.split(" ")[:10])
+
+            whole_context = context_before + " " + character_name + " " + context_after
+            character_texts.append(whole_context)
+
     text = " ".join(character_texts)
     return text
 
@@ -76,6 +111,7 @@ if __name__ == "__main__":
         print(kw)
 
     jesus_text = get_text_for_character("Jesus")
+    print(jesus_text[:5000])
     jesus_keywords = get_keywords(jesus_text)
     print("\nKeywords for Jesus:\n")
     for kw in jesus_keywords:
