@@ -100,7 +100,7 @@ def get_keywords(text):  # TODO: experiment to find best parameters
     num_of_keywords = 20
     kw_extractor = yake.KeywordExtractor(lan="en", n=max_ngram_size, dedupLim=deduplication_threshold,
                                          dedupFunc=deduplication_algo, windowsSize=window_size, top=num_of_keywords,
-                                         features=None)
+                                         features=None, stopwords="stopwords.txt")  # FIXME stopwords don't seem to be working
     keywords = kw_extractor.extract_keywords(text)
     return keywords
 
