@@ -10,11 +10,14 @@ class Character:
         self.relations = list()
         self.most_frequent_words = list()
 
-    def add_relation(self, target_character):
-        self.relations.append(Relation(self, target_character))
+    def add_relation(self, relation):
+        self.relations.append(relation)
 
     def get_relations(self):
         return self.relations
 
     def get_most_frequent_words(self):
         return self.most_frequent_words
+
+    def get_name(self):
+        return self.name
