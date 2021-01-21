@@ -14,14 +14,18 @@ from relation import Relation
 class PickleHandler:
     def __init__(self):
         self.characters = list()
+        self.relations = list()
 
     def load_characters(self):
         with open("characters.pkl", "rb") as input:
             self.characters = pickle.load(input)
             return self.characters
 
-    def load_characters_by_name(self):
-        pass
+    def load_character_by_name(self, name):
+        for character in self.characters:
+            if character.name == name:
+                return character
+        return False
 
     def save_character(self, character):
         self.characters.append(character)
@@ -40,6 +44,23 @@ class PickleHandler:
             if character.name == character_name:
                 return character
         return False
+
+    def load_relations(self):
+        with open("relations.pkl", "rb") as input:
+            self.relations = pickle.load(input)
+            return self.relations
+
+    def save_relation(self, relation):
+        self.relations.append(relation)
+        with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
+            pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
+
+    def save_relation_list(self, relation_list):
+        """save a list of relations, which are written into the relations.pkl file"""
+        for relation in relation_list:
+            self.relations.append(relation)
+        with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
+            pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
 
     def clear_duplicates(self):
 

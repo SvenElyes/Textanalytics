@@ -8,69 +8,63 @@ sys.path.append("./data/")
 from character import Character
 from relation import Relation
 
-""" 
-This module aims to create the relationship objects between 2 Character objects and for later to assign each realtionship its properties.
-It loads the data from the bibleTA_characters.csv file,  which has a collumn called characters, which specify all the character which appeareed in each verse
-"""
 
+def create_char_relation(df_bibleTA_distilled):
+    """This function will create all character and relationobjects from the distilled csv
+    we will use a csv which was generated in the distillDataFrame function, which is located in the eval_graph.py function.The CSV has following form:
+    ,character_A,character_B,emotion
+    0, God,Abraham,0.0
+    1, God,ye,0.0
+    One thing to remeber, is that the relations are distinct, so we will not have the same relationship in two seperate rows."""
 
-def load_df_2_char():
-    df_bible_characters = pd.read_csv("bibleTA_characters.csv")
-    df_bible_characters.dropna(subset=["characters"], inplace=True)
-    """create a new coloumns containing the number of characters in each row
-    
-    """
-    """
-    df_bible_characters["number_of_characters"] = (
-        df_bible_characters["characters"].str.count("| ") + 1
-    )
-    """
-    # TODO PLS FIX THIS THE ABOVE ONE DOESNT WORK !!!!
-    num_char = []
-    char = df_bible_characters["characters"]
-    for x in char:
-        num_char.append(x.count("|") + 1)
+    """each time we save a character or a relation we do have to do expensive operations in I/O a .pkl file."""
+    character_list = []
+    character_name_list = []
+    relation_list = []
+    for _, row in df_bibleTA_distilled.iterrows():
+        character_A_name, character_B_name, emotion = (
+            row["character_A"].lstrip(),
+            row["character_B"].lstrip(),
+            row["emotion"],
+        )
 
-    df_bible_characters["number_of_characters"] = num_char
+        """check if we already encountered the character in a previous loop process"""
+        if character_A_name in character_name_list:
+            """get the character from the character_list"""
+            for character in character_list:
+                if character.get_name() == character_A_name:
+                    character_A = character
+            character_A_exists = False
+        else:
+            character_A = Character(character_A_name)
+            character_name_list.append(character_A_name)
+            character_list.append(character_A)
+            character_A_exists = True
 
-    # print(df_bible_characters.head(20))
-    """drop the rows in which there are not exactly 2 members as we will look at those relationships first"""
+        if character_B_name in character_name_list:
+            """get the character from the character_list"""
+            for character in character_list:
+                if character.get_name() == character_B_name:
+                    character_B = character
+            character_B_exists = False
+        else:
+            character_B = Character(character_B_name)
+            character_name_list.append(character_B_name)
+            character_list.append(character_B)
+            character_B_exists = True
 
-    df_bible_characters = df_bible_characters.loc[
-        df_bible_characters["number_of_characters"] == 2
-    ]
-
-    return df_bible_characters
-
-
-def write_df_to_obj(df_bible, pickleHandler):
-    """this function creates for each name in the character column a character object and creates a corresponding relationship object and saves the characters in the pickle file"""
-    for _, row in df_bible.iterrows():
-        string = row["characters"]
-        string = string.split("| ")
-        """ Create 2 Characters"""
-        char1 = Character(string[0])
-        char2 = Character(string[1])
-
-        """ Create 2 Relations for each Charachter """
-
-        char1.add_relation(char2)
-        char2.add_relation(char1)
-
-        pickleHandler.save_character_list([char1, char2])
-
-    """we then clean up the objects by summarizing it and deleting duplicates"""
-    pickleHandler.clear_duplicates()
+        relation = Relation(character_A, character_B, emotion)
+        character_A.add_relation(relation)
+        character_B.add_relation(relation)
+        relation_list.append(relation)
+    picklehandler = PickleHandler()
+    picklehandler.save_character_list(character_list)
+    picklehandler.save_relation_list(relation_list)
 
 
 if __name__ == "__main__":
-
-    df_bible = load_df_2_char()
-    pickleHandler = PickleHandler()
-    write_df_to_obj(df_bible, pickleHandler)
-
-    list_of_characters = pickleHandler.load_characters()
-    """
-    for i in list_of_characters:
-        print(i.name, i.get_relations()[0].get_target_character().name)
-    """
+    df_bibleTA_distilled = pd.read_csv("bibleTA_distilled_new_8.csv")
+    create_char_relation(df_bibleTA_distilled)
+    picklehandler = PickleHandler()
+    relations = picklehandler.load_relations()
+    characters = picklehandler.load_characters()
