@@ -38,6 +38,11 @@ class PickleHandler:
         with open("characters.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.characters, output, pickle.HIGHEST_PROTOCOL)
 
+    def save_override_character_list(self, character_list):
+        self.characters = character_list
+        with open("characters.pkl", "wb") as output:  # Overwrites any existing file.
+            pickle.dump(self.characters, output, pickle.HIGHEST_PROTOCOL)
+
     def get_character_by_name_from_list(self, list_of_characters, character_name):
         """List of character and a name return a character"""
         for character in list_of_characters:
@@ -56,9 +61,15 @@ class PickleHandler:
             pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
 
     def save_relation_list(self, relation_list):
-        """save a list of relations, which are written into the relations.pkl file"""
+        """appends a list of relations to the already existing  list of relations, which are written into the relations.pkl file"""
         for relation in relation_list:
             self.relations.append(relation)
+        with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
+            pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
+
+    def save_override_relation_list(self, relation_list):
+        """overrides the list of relations in the pickle FIle and replaces it with the relation list"""
+        self.relations = relation_list
         with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
 

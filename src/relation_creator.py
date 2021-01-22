@@ -2,6 +2,7 @@ import pandas as pd
 import sys
 import json
 from pickle_handler import PickleHandler
+import keyword_extractor
 
 sys.path.append("./data/")
 
@@ -58,13 +59,32 @@ def create_char_relation(df_bibleTA_distilled):
         character_B.add_relation(relation)
         relation_list.append(relation)
     picklehandler = PickleHandler()
-    picklehandler.save_character_list(character_list)
-    picklehandler.save_relation_list(relation_list)
+    picklehandler.save_override_character_list(character_list)
+    picklehandler.save_override_relation_list(relation_list)
+
+
+def create_character_keywords():
+    picklehandler = PickleHandler()
+    character_list = picklehandler.load_characters()
+    for character in character_list:
+        text = keyword_extractor.get_text_for_character(character.get_name())
+        keywords = keyword_extractor.get_keywords(
+            text
+        )  # (0.00038614527349260347, 'christ') is an example of the list element
+        character.set_most_frequent_words(keywords)
+
+    picklehandler.save_override_character_list(character_list)
 
 
 if __name__ == "__main__":
     df_bibleTA_distilled = pd.read_csv("bibleTA_distilled_new_8.csv")
     create_char_relation(df_bibleTA_distilled)
+    create_character_keywords()
+
     picklehandler = PickleHandler()
+
     relations = picklehandler.load_relations()
     characters = picklehandler.load_characters()
+    for character in characters:
+        mfw = character.get_most_frequent_words()
+        print(mfw)
