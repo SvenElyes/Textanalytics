@@ -12,68 +12,139 @@ from relation import Relation
 
 
 class PickleHandler:
+    """class for handling the creation and handling .pkl files for saving progress when working with charactres
+    and relations
+    """
+
     def __init__(self):
+        """initiate a Picklehandler that has 2 lists
+        one for characters and one for relations
+        """
         self.characters = list()
         self.relations = list()
 
     def load_characters(self):
+        """load a list of characters from the characters.pkl file
+
+        Returns:
+            list: a list of characters
+        """
         with open("characters.pkl", "rb") as input:
             self.characters = pickle.load(input)
             return self.characters
 
     def load_character_by_name(self, name):
+        """returns a single character or False, given the name of the object
+
+        Args:
+            name (string): The name of the character
+
+        Returns:
+            [Character]: character object with matching name, or False, if not found
+        """
         for character in self.characters:
             if character.name == name:
                 return character
         return False
 
     def save_character(self, character):
+        """Saves a single character into the .pkl file and the character list attribute
+
+        Args:
+            character (Character): Character object
+        """
         self.characters.append(character)
         with open("characters.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.characters, output, pickle.HIGHEST_PROTOCOL)
 
     def save_character_list(self, character_list):
+        """Saves a list of characters towards the .pkl file and the character list attribute
+
+        Args:
+            character_list (list(charcter)): a list of characters to be saved
+        """
         for character in character_list:
             self.characters.append(character)
         with open("characters.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.characters, output, pickle.HIGHEST_PROTOCOL)
 
     def save_override_character_list(self, character_list):
+        """override the list of characters in the .pkl file and charcter list attribute.
+
+        Args:
+            character_list (list(character)): a list of characters
+        """
         self.characters = character_list
         with open("characters.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.characters, output, pickle.HIGHEST_PROTOCOL)
 
     def get_character_by_name_from_list(self, list_of_characters, character_name):
-        """List of character and a name return a character"""
+        """returns a character from a list of character, chosen by name
+
+        Args:
+            list_of_characters (list(characters)): list of characters, in which the charactre is looked for
+            character_name (string): character name
+
+        Returns:
+            [Character]: character object or false
+        """
         for character in list_of_characters:
             if character.name == character_name:
                 return character
         return False
 
     def load_relations(self):
+        """load the list of relations from the .pkl file
+
+        Returns:
+            [list(relations)]: list of all relations
+        """
         with open("relations.pkl", "rb") as input:
             self.relations = pickle.load(input)
             return self.relations
 
     def save_relation(self, relation):
+        """save a single relation to the PickleHandler attribute list and
+        the .pkl file
+
+        Args:
+            relation (Relation): single relation object
+        """
         self.relations.append(relation)
         with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
 
     def save_relation_list(self, relation_list):
-        """appends a list of relations to the already existing  list of relations, which are written into the relations.pkl file"""
+        """Saves a relation list to the PickleHandler attribute and the
+        .pkl file
+
+        Args:
+            relation_list (list(Relations)): list of relations
+        """
         for relation in relation_list:
             self.relations.append(relation)
         with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
 
     def save_override_relation_list(self, relation_list):
-        """overrides the list of relations in the pickle FIle and replaces it with the relation list"""
+        """Override the attribute and the .pkl file content with a new list
+
+
+        Args:
+            relation_list (list(relations)): relation list
+        """
         self.relations = relation_list
         with open("relations.pkl", "wb") as output:  # Overwrites any existing file.
             pickle.dump(self.relations, output, pickle.HIGHEST_PROTOCOL)
 
     def clear_duplicates(self):
+        """Deprecetad function that hat the goal of removing duplicate characters in the .pkl file
+        we now dont use the function because eval_graph.py gives a distilled csv, removing the concept of duplicates
+
+        The function looks for multiple occurunces of the same name, and saves all the relations of that character under the same ONE
+        character.
+
+        This function however is not equipped with handling the numerical value we assigned to relations, bc it was written later on"""
 
         """ because the way the character list is created, we need to summarize each occournce under the same object."""
         temp = []

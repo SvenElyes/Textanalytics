@@ -18,13 +18,16 @@ def get_text_for_chapter(chapter, book_id):
     :rtype: str
     """
     bible_df = dataloader.get_df_bible()
-    ch_df = bible_df.loc[(bible_df['chapter'] == chapter) & (bible_df['book_id'] == book_id)]
-    ch_texts = ch_df['text'].tolist()
+    ch_df = bible_df.loc[
+        (bible_df["chapter"] == chapter) & (bible_df["book_id"] == book_id)
+    ]
+    ch_texts = ch_df["text"].tolist()
     text = " ".join(ch_texts)
     return text
 
 
 # verses with character name
+
 
 def get_text_for_character(character_name):
     """Selects text relevant for character
@@ -40,23 +43,33 @@ def get_text_for_character(character_name):
     :rtype: str
     """
     bible_df = dataloader.get_df_bible()
-    character_df = bible_df[bible_df['text'].str.contains(character_name)]
-    character_verses = dict(zip(character_df.index, character_df.text))  # FIXME in order to not iterate over df - good?
+    character_df = bible_df[bible_df["text"].str.contains(character_name)]
+    character_verses = dict(
+        zip(character_df.index, character_df.text)
+    )  # FIXME in order to not iterate over df - good?
     character_texts = []
 
     for i, verse in character_verses.items():
-        split_verse = verse.split(character_name)  # "He was Jesus and Jesus was good" -> ["He was", "and", "was good"]
+        split_verse = verse.split(
+            character_name
+        )  # "He was Jesus and Jesus was good" -> ["He was", "and", "was good"]
         for index, verse_part in enumerate(split_verse[:-1]):
-            context_before = character_name.join(split_verse[:index + 1])  # index=1: "Jesus".join(["He was", "and"])
+            context_before = character_name.join(
+                split_verse[: index + 1]
+            )  # index=1: "Jesus".join(["He was", "and"])
             context_size_before = len(context_before.split(" "))
-            context_after = character_name.join(split_verse[index + 1:])  # index=0: "Jesus".join(["and", "was good"])
+            context_after = character_name.join(
+                split_verse[index + 1 :]
+            )  # index=0: "Jesus".join(["and", "was good"])
             context_size_after = len(context_after.split(" "))
 
             added_verses = 0
             while context_size_before < 10:
                 added_verses += 1
                 if i - added_verses > 0:
-                    context_before = bible_df.loc[i - added_verses, 'text'] + " " + context_before
+                    context_before = (
+                        bible_df.loc[i - added_verses, "text"] + " " + context_before
+                    )
                     context_size_before = len(context_before.split(" "))
                 else:
                     break
@@ -65,7 +78,7 @@ def get_text_for_character(character_name):
             while context_size_after < 10:
                 added_verses += 1
                 if i + added_verses < len(bible_df.index):
-                    context_after += (" " + bible_df.loc[i + added_verses, 'text'])
+                    context_after += " " + bible_df.loc[i + added_verses, "text"]
                     context_size_after = len(context_after.split(" "))
                 else:
                     break
@@ -98,9 +111,15 @@ def get_keywords(text):  # TODO: experiment to find best parameters
     deduplication_algo = "eqm"
     window_size = 1
     num_of_keywords = 20
-    kw_extractor = yake.KeywordExtractor(lan="en", n=max_ngram_size, dedupLim=deduplication_threshold,
-                                         dedupFunc=deduplication_algo, windowsSize=window_size, top=num_of_keywords,
-                                         features=None, stopwords="stopwords.txt")  # FIXME stopwords don't seem to be working
+    kw_extractor = yake.KeywordExtractor(
+        lan="en",
+        n=max_ngram_size,
+        dedupLim=deduplication_threshold,
+        dedupFunc=deduplication_algo,
+        windowsSize=window_size,
+        top=num_of_keywords,
+        features=None,
+    )  # FIXME stopwords don't seem to be working
     keywords = kw_extractor.extract_keywords(text)
     return keywords
 

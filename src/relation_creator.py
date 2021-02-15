@@ -11,6 +11,7 @@ from relation import Relation
 
 
 def create_char_relation(df_bibleTA_distilled):
+
     """This function will create all character and relationobjects from the distilled csv
     we will use a csv which was generated in the distillDataFrame function, which is located in the eval_graph.py function.The CSV has following form:
     ,character_A,character_B,emotion
@@ -64,6 +65,10 @@ def create_char_relation(df_bibleTA_distilled):
 
 
 def create_character_keywords():
+    """this function loads the characters from the .pkl file, and then using the keywordextractor, to
+    get keywords for the cahracter name. It then saves the frequent words to the character attribute
+    It then overrides the .pkl file with the updated characters
+    """
     picklehandler = PickleHandler()
     character_list = picklehandler.load_characters()
     for character in character_list:
