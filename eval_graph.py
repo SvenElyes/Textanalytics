@@ -8,6 +8,7 @@ from pylab import *
 import re
 import time
 import src.pickle_handler as ph
+import src.relation_creator as rc
 
 # the dataframe has been preprocessed by many other functions. However we only need a subset of this information to
 # create a graph representation of the relations.
@@ -35,18 +36,25 @@ def formate_bible(df_bible):
         names = names.replace("'", "")
         names = names.strip()
         names = names.replace("\n", "")
-        names = names.split('|')
+        names = names.split("|")
         names_remove = names.copy()
 
         if len(names) >= 2:
             for name in names:
                 for r_name in names_remove:
                     if name != r_name:
-                        new_row = {'character_A': name.strip(), 'character_B': r_name.strip(), 'emotion': emotion}
-                        df_bible_formate = df_bible_formate.append(new_row, ignore_index=True)
+                        new_row = {
+                            "character_A": name.strip(),
+                            "character_B": r_name.strip(),
+                            "emotion": emotion,
+                        }
+                        df_bible_formate = df_bible_formate.append(
+                            new_row, ignore_index=True
+                        )
                 names_remove.remove(name)
     print("formated names to list bible")
     return df_bible_formate
+
 
 # distillDataframe should turn the dataframe to distinct rows, which have been aggregated in terms of
 # their emotion. The dataframe needs to be aggregated because characters may occur at multiple verses
@@ -58,7 +66,7 @@ def formate_bible(df_bible):
 
 def distillDataframe(df_bible, load, threshold, save):
     # Parameter
-    # df_bible : pandas dataframeof the bible
+    # df_bible : pandas dataframe of the bible
     # load : determines if a csv should be loaded or if one has to be produced by the function, bool
     # threshold : counts how often relations should occur before being considered reasonable
     # i.e. one time mentions may not be displayed, integer
@@ -73,8 +81,8 @@ def distillDataframe(df_bible, load, threshold, save):
         try:
             df_distilled = pd.read_csv(file)
             # get list of unique characters
-            A = df_distilled['character_A'].unique().tolist()
-            B = df_distilled['character_B'].unique().tolist()
+            A = df_distilled["character_A"].unique().tolist()
+            B = df_distilled["character_B"].unique().tolist()
             label = A + B
             label = list(set(label))
             try:
@@ -82,13 +90,15 @@ def distillDataframe(df_bible, load, threshold, save):
             except:
                 pass
         except:
-            print('Could not load file, make sure to following file exists: ' + str(file))
+            print(
+                "Could not load file, make sure to following file exists: " + str(file)
+            )
             load = False
 
     if load == False:
         # get list of unique characters
-        A = df_bible['character_A'].unique().tolist()
-        B = df_bible['character_B'].unique().tolist()
+        A = df_bible["character_A"].unique().tolist()
+        B = df_bible["character_B"].unique().tolist()
         label = A + B
         label = list(set(label))
         try:
@@ -103,13 +113,21 @@ def distillDataframe(df_bible, load, threshold, save):
         # implemented by removal of labels in label_remove list
         label_remove = label.copy()
         for i, character_A in enumerate(label):
-            if (i+1) % 10 == 0:
-                print(str(i+1) + "/" + str(len(label)))
+            if (i + 1) % 10 == 0:
+                print(str(i + 1) + "/" + str(len(label)))
             for character_B in label_remove:
                 if character_A != character_B:
                     # count emotions in both directions
-                    subset_A = df_bible.loc[(df_bible['character_A'] == character_A) & (df_bible['character_B'] == character_B) & (df_bible['emotion'].notna() == True)]
-                    subset_B = df_bible.loc[(df_bible['character_A'] == character_B) & (df_bible['character_B'] == character_A) & (df_bible['emotion'].notna() == True)]
+                    subset_A = df_bible.loc[
+                        (df_bible["character_A"] == character_A)
+                        & (df_bible["character_B"] == character_B)
+                        & (df_bible["emotion"].notna() == True)
+                    ]
+                    subset_B = df_bible.loc[
+                        (df_bible["character_A"] == character_B)
+                        & (df_bible["character_B"] == character_A)
+                        & (df_bible["emotion"].notna() == True)
+                    ]
 
                     # join both dataframes
                     frames = [subset_A, subset_B]
@@ -117,10 +135,9 @@ def distillDataframe(df_bible, load, threshold, save):
 
                     empty_list = subset.empty
 
-
                     if empty_list == False and subset.shape[0] > threshold:
                         # calculate mean over emotions
-                        emotion_mean = np.mean(subset['emotion'])
+                        emotion_mean = np.mean(subset["emotion"])
                         # round it to an absolute emotion (needed for coloring in graph)
                         if emotion_mean > 0.75:
                             emotion_mean = 1.0
@@ -132,15 +149,19 @@ def distillDataframe(df_bible, load, threshold, save):
                         # df_distilled will have distinct and aggregated emotion rows. From this we
                         # can create edge colors and the concrete edges of the graph
                         # sort names alphabetically, will later be "exploited" while shrinking the graph
-                        new_row = {'character_A': character_A, 'character_B': character_B, 'emotion': emotion_mean}
+                        new_row = {
+                            "character_A": character_A,
+                            "character_B": character_B,
+                            "emotion": emotion_mean,
+                        }
 
                         # create object from relation class like new_row
 
                         df_distilled = df_distilled.append(new_row, ignore_index=True)
             label_remove.remove(character_A)
 
-        A = df_distilled['character_A'].unique().tolist()
-        B = df_distilled['character_B'].unique().tolist()
+        A = df_distilled["character_A"].unique().tolist()
+        B = df_distilled["character_B"].unique().tolist()
         label = A + B
         label = list(set(label))
         if save == True:
@@ -152,6 +173,7 @@ def distillDataframe(df_bible, load, threshold, save):
 # first it builds the graph based on its nodes and edges.
 # than it tries to create the experiment folder, where it than saves the graph plot
 # if no relation information is given in color_emotion all edges will be black.
+
 
 def plotGraph(edges, color_emotion, label, location, exp):
     # Parameter:
@@ -165,19 +187,24 @@ def plotGraph(edges, color_emotion, label, location, exp):
     graph = Graph.Graph(n=len(label), edges=edges)
 
     if color_emotion == []:
-        out = Graph.plot(graph, vertex_size=10,
-                         vertex_color=['white'],
-                         vertex_label=label)
-        out.save(os.path.join(location, exp + '.png'))
+        out = Graph.plot(
+            graph, vertex_size=10, vertex_color=["white"], vertex_label=label
+        )
+        out.save(os.path.join(location, exp + ".png"))
     else:
-        out = Graph.plot(graph, vertex_size=10,
-                         vertex_color=['white'],
-                         vertex_label=label,
-                         edge_color=color_emotion)
-        out.save(os.path.join(location, exp + '.png'))
+        out = Graph.plot(
+            graph,
+            vertex_size=10,
+            vertex_color=["white"],
+            vertex_label=label,
+            edge_color=color_emotion,
+        )
+        out.save(os.path.join(location, exp + ".png"))
+
 
 # converts the distinct list to nodes and edges. Notes will be our names, which then are converted to a number using a
 # dict. Those numbers are translated into edges between character_A and character_B.
+
 
 def convertToIGraph(dataframe):
     # Parameters:
@@ -188,15 +215,15 @@ def convertToIGraph(dataframe):
     # color_emotion : list of colors in the same length as edges has rows
     # label : unique list of labels which index matches the edges
 
-    A = dataframe['character_A'].unique().tolist()
-    B = dataframe['character_B'].unique().tolist()
+    A = dataframe["character_A"].unique().tolist()
+    B = dataframe["character_B"].unique().tolist()
     label = A + B
     label = list(set(label))
 
-    label2id = {l : i for i, l in enumerate(label)}
-    id2label = {i : l for i, l in enumerate(label)}
+    label2id = {l: i for i, l in enumerate(label)}
+    id2label = {i: l for i, l in enumerate(label)}
 
-    #color dict for transfering the emotion score to a colored edge
+    # color dict for transfering the emotion score to a colored edge
     color_dict = {1: "green", -1: "red", 0: "black"}
 
     edges = []
@@ -211,8 +238,10 @@ def convertToIGraph(dataframe):
 
     return edges, color_emotion, label
 
+
 # load csv in case new textAnalytics outout has been generated. can be set in main.
 # load the bible as csv and can differentiate between the old an the new testament
+
 
 def loadCSV(testament):
     # Parameter:
@@ -224,19 +253,27 @@ def loadCSV(testament):
 
     if testament == "new":
         first_matthew_verse = df_bible.index[
-            (df_bible["book_id"] == "Matt") & (df_bible["verse"] == 1) & (df_bible["chapter"] == 1)].tolist()[0]
+            (df_bible["book_id"] == "Matt")
+            & (df_bible["verse"] == 1)
+            & (df_bible["chapter"] == 1)
+        ].tolist()[0]
         df_bible = df_bible[first_matthew_verse:]
 
     if testament == "old":
         first_matthew_verse = df_bible.index[
-            (df_bible["book_id"] == "Matt") & (df_bible["verse"] == 1) & (df_bible["chapter"] == 1)].tolist()[0]
-        df_bible = df_bible[:(first_matthew_verse - 1)]
+            (df_bible["book_id"] == "Matt")
+            & (df_bible["verse"] == 1)
+            & (df_bible["chapter"] == 1)
+        ].tolist()[0]
+        df_bible = df_bible[: (first_matthew_verse - 1)]
     return df_bible
+
 
 # main function, which calls all the other functions and can be called from outside.
 # can be given a dataframe (or it loads one from the folder)
 # can also be given load, which loads the last distilled dataframe with distinct
 # character_A to character_B mappings with an aggregated emotion value
+
 
 def getGraph(df_bible, load, threshold, testament, location):
     # Parameter:
@@ -256,7 +293,9 @@ def getGraph(df_bible, load, threshold, testament, location):
         df_bible = pd.DataFrame(data=df_bible)
 
     df_bible = formate_bible(df_bible)
-    df_relation, label_list = distillDataframe(df_bible, load, threshold=threshold, save=True)
+    df_relation, label_list = distillDataframe(
+        df_bible, load, threshold=threshold, save=True
+    )
 
     # convert distilled data to nodes and edges. Also generate colored edges
     edges, color_emotion, label = convertToIGraph(df_relation)
@@ -264,6 +303,7 @@ def getGraph(df_bible, load, threshold, testament, location):
     # make and plot graph + save to path
     plotGraph(edges, color_emotion, label, location=location, exp="1_emotion_graph")
     return df_relation, label_list
+
 
 # Cluster2Graph is used to display the clusters in the graph to the dataframe, such that the clusters may be visual
 def Cluster2Graph(df_cluster):
@@ -274,13 +314,13 @@ def Cluster2Graph(df_cluster):
     # edges: numpy array of numerical edges
     # label : index matches numerical values of edges, list of node names (Names and Cluster)
 
-    A = df_cluster['person'].unique().tolist()
-    B = df_cluster['cluster'].unique().tolist()
+    A = df_cluster["person"].unique().tolist()
+    B = df_cluster["cluster"].unique().tolist()
     label = A + B
     label = list(set(label))
 
-    label2id = {l : i for i, l in enumerate(label)}
-    id2label = {i : l for i, l in enumerate(label)}
+    label2id = {l: i for i, l in enumerate(label)}
+    id2label = {i: l for i, l in enumerate(label)}
 
     edges = []
 
@@ -289,6 +329,13 @@ def Cluster2Graph(df_cluster):
         B = label2id[df_verse["cluster"]]
         edges.append([A, B])
     return edges, label
+
+
+# This Function aims to create the pickle, objecs using the relation_creator. We need a distiled csv to do the work.
+def create_pickle_objects(df_emotion):
+    rc.create_char_relation(df_emotion)
+    rc.create_character_keywords()
+
 
 # function is to load the pickle objects, to process their keywords each person
 def load_pickle_objects():
@@ -313,8 +360,6 @@ def load_pickle_objects():
     return labels, res
 
 
-
-
 # cluster keywords and create list of people in this cluster that have threshold enough keywords coming from the same cluster
 def cluster_data(num_cluster, threshold):
     # Parameter:
@@ -332,7 +377,6 @@ def cluster_data(num_cluster, threshold):
         for keyword in keywords_res:
             if keyword not in distinct_res:
                 distinct_res.append(keyword)
-
 
     # load spaCy's word2vec
     nlp = spacy.load("en_core_web_lg")
@@ -352,7 +396,9 @@ def cluster_data(num_cluster, threshold):
     # dict that gives cluster to word, to then convert the keywords of character to keywords in cluster
     # e.g. Jesus, keywords = ["Lord", "raised from dead", "son", "god"]
     # into: Jesus, clustered_res = [1, 0, 4, 2]
-    keyword2cluster = {keyword : cluster for keyword, cluster in zip(distinct_res, clustered_words)}
+    keyword2cluster = {
+        keyword: cluster for keyword, cluster in zip(distinct_res, clustered_words)
+    }
     clustered_res = np.empty_like(res)
 
     for i, keywords_res in enumerate(res):
@@ -374,14 +420,16 @@ def cluster_data(num_cluster, threshold):
             # if keywords from same cluster have occurred more often that threshold says, they are added as edge to the graph
             if count >= threshold:
                 # append to dataframe
-                new_row = {'person': characters[i], 'cluster': cluster_name}
+                new_row = {"person": characters[i], "cluster": cluster_name}
                 df_cluster = df_cluster.append(new_row, ignore_index=True)
 
     df_cluster.to_csv(file)
     return df_cluster
 
+
 # getCluster loads the clusters to a dataframe. Either from csv file or by calling cluster_data()
 # dataframe is then prepared to be displayed as a graph and subsequent plotted
+
 
 def getCluster(load, num_cluster, threshold, location):
     # parameter:
@@ -413,6 +461,7 @@ def getCluster(load, num_cluster, threshold, location):
     plotGraph(edges, [], label, location=location, exp="2_cluster_graph")
     return df_cluster
 
+
 # apply the found clusters in the graph to the actual dataframe
 # practically difficult because one character can be in multiple clusters
 # returns a new dataframe that considers the previous dataframe
@@ -434,6 +483,7 @@ def getCluster(load, num_cluster, threshold, location):
 
 ###########################################################################################################
 
+
 def replaceCluster(cluster_log, df_emotion):
     # parameter:
     # cluster_log: pandas dataframe that hold all character, that are in cluster and can be found in graph
@@ -445,8 +495,8 @@ def replaceCluster(cluster_log, df_emotion):
     # remove duplicates in log
     cluster_log = cluster_log.drop_duplicates()
     # get all characters in the bible dataframe
-    A = df_emotion['character_A'].unique().tolist()
-    B = df_emotion['character_B'].unique().tolist()
+    A = df_emotion["character_A"].unique().tolist()
+    B = df_emotion["character_B"].unique().tolist()
     labels = A + B
     labels = list(set(labels))
     # return dataframe initial
@@ -454,11 +504,11 @@ def replaceCluster(cluster_log, df_emotion):
 
     # for all characters in the bible
     for character in labels:
-        clusters = cluster_log.loc[cluster_log['from'] == character]['to'].values
+        clusters = cluster_log.loc[cluster_log["from"] == character]["to"].values
 
         # get all neighbors to the current character
-        subset_A = df_emotion.loc[df_emotion['character_A'] == character]['character_B']
-        subset_B = df_emotion.loc[df_emotion['character_B'] == character]['character_A']
+        subset_A = df_emotion.loc[df_emotion["character_A"] == character]["character_B"]
+        subset_B = df_emotion.loc[df_emotion["character_B"] == character]["character_A"]
         frames = [subset_A, subset_B]
         neighbors = pd.concat(frames, sort=False).tolist()
 
@@ -466,10 +516,16 @@ def replaceCluster(cluster_log, df_emotion):
         # character will be replaced with; in idea called "has neighbors:"
         for n in neighbors:
             # get the emotion of the current row
-            emotion = df_emotion.loc[(df_emotion['character_A'] == character) & (df_emotion['character_B'] == n)]
+            emotion = df_emotion.loc[
+                (df_emotion["character_A"] == character)
+                & (df_emotion["character_B"] == n)
+            ]
             empty_list = emotion.empty
             if empty_list == True:
-                emotion = df_emotion.loc[(df_emotion['character_B'] == character) & (df_emotion['character_A'] == n)]
+                emotion = df_emotion.loc[
+                    (df_emotion["character_B"] == character)
+                    & (df_emotion["character_A"] == n)
+                ]
             emotion = emotion.values[0][3]
 
             if len(clusters) > 0:
@@ -480,29 +536,44 @@ def replaceCluster(cluster_log, df_emotion):
                 # this character gets replaced multiple times by the cluster
                 for cl in clusters:
                     # print(str(n) + " - " + str(character) + " : " + str(cl))
-                    cluster_entry = {'character_A': cl.strip(),
-                                     'character_B': n.strip(),
-                                     'emotion': emotion}
-                    df_emotion_cluster = df_emotion_cluster.append(cluster_entry, ignore_index=True)
+                    cluster_entry = {
+                        "character_A": cl.strip(),
+                        "character_B": n.strip(),
+                        "emotion": emotion,
+                    }
+                    df_emotion_cluster = df_emotion_cluster.append(
+                        cluster_entry, ignore_index=True
+                    )
 
             else:
                 # if character is in no cluster
-                cluster_entry = {'character_A': n.strip(),
-                                 'character_B': character.strip(),
-                                 'emotion': emotion}
-                df_emotion_cluster = df_emotion_cluster.append(cluster_entry, ignore_index=True)
+                cluster_entry = {
+                    "character_A": n.strip(),
+                    "character_B": character.strip(),
+                    "emotion": emotion,
+                }
+                df_emotion_cluster = df_emotion_cluster.append(
+                    cluster_entry, ignore_index=True
+                )
 
-        index_characters = df_emotion[(df_emotion['character_A'] == character) | (df_emotion['character_B'] == character)].index
+        index_characters = df_emotion[
+            (df_emotion["character_A"] == character)
+            | (df_emotion["character_B"] == character)
+        ].index
         df_emotion.drop(index_characters, inplace=True)
 
     df_emotion_cluster = df_emotion_cluster.drop_duplicates()
     return df_emotion_cluster
 
+
 # recursive call to do a depth first search
 # is given a person which is in cluster x and checks every relation/neighbor node if this node is also in the cluster
 # if so, the previous node is added to the cluster / marked "in cluster"
 
-def investigateNeighbor(cluster, cluster_id, neighbor, df_cluster, df_emotion, cluster_log, found_neighbors):
+
+def investigateNeighbor(
+    cluster, cluster_id, neighbor, df_cluster, df_emotion, cluster_log, found_neighbors
+):
     # parameter:
     # cluster: current cluster the function should find neighbors in, string
     # cluster_id: cluster may be found at multiple places in graph which
@@ -518,8 +589,14 @@ def investigateNeighbor(cluster, cluster_id, neighbor, df_cluster, df_emotion, c
 
     # probe if the node has neighbor nodes
 
-    subset_A = df_emotion.loc[(df_emotion['character_A'] == neighbor) & (~df_emotion['character_B'].isin(found_neighbors))]['character_B']
-    subset_B = df_emotion.loc[(df_emotion['character_B'] == neighbor) & (~df_emotion['character_A'].isin(found_neighbors))]['character_A']
+    subset_A = df_emotion.loc[
+        (df_emotion["character_A"] == neighbor)
+        & (~df_emotion["character_B"].isin(found_neighbors))
+    ]["character_B"]
+    subset_B = df_emotion.loc[
+        (df_emotion["character_B"] == neighbor)
+        & (~df_emotion["character_A"].isin(found_neighbors))
+    ]["character_A"]
     frames = [subset_A, subset_B]
     new_neighbors = pd.concat(frames, sort=False).unique().tolist()
 
@@ -527,23 +604,34 @@ def investigateNeighbor(cluster, cluster_id, neighbor, df_cluster, df_emotion, c
     for ii, new_neighbor in enumerate(new_neighbors):
         found_neighbors.append(new_neighbor)
         if new_neighbor != neighbor:
-            check_cluster = df_cluster.loc[(df_cluster['cluster'] == cluster) & (df_cluster['person'] == new_neighbor)]
+            check_cluster = df_cluster.loc[
+                (df_cluster["cluster"] == cluster)
+                & (df_cluster["person"] == new_neighbor)
+            ]
             empty_list = check_cluster.empty
-            #if yes, apply cluster to graph
+            # if yes, apply cluster to graph
             if empty_list == False:
                 # first delete the row from cluster_frame
                 df_cluster = df_cluster.drop(check_cluster.index)
-                log_entry = {'from': new_neighbor.strip(),
-                             'to': cluster_id}
+                log_entry = {"from": new_neighbor.strip(), "to": cluster_id}
                 cluster_log = cluster_log.append(log_entry, ignore_index=True)
 
-                cluster_log, df_cluster = investigateNeighbor(cluster, cluster_id, new_neighbor, df_cluster, df_emotion, cluster_log, found_neighbors)
+                cluster_log, df_cluster = investigateNeighbor(
+                    cluster,
+                    cluster_id,
+                    new_neighbor,
+                    df_cluster,
+                    df_emotion,
+                    cluster_log,
+                    found_neighbors,
+                )
 
     return cluster_log, df_cluster
 
 
 # main function hat is looking for clusters in the dataframe. Finds initial pair and starts the recursive call
 # to investigate that cluster
+
 
 def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
     # parameters:
@@ -559,7 +647,7 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
     # df_emotion: is the ralation pandas dataframe, that has been adjusted, such that it includes the clusters
 
     # get all clusters available in the data
-    clusters = df_cluster['cluster'].unique().tolist()
+    clusters = df_cluster["cluster"].unique().tolist()
     # add characters that have been found in the dataframe and run in the same cluster; needs at least 2
     # neighboring characters which are in the same cluster to add them
     cluster_log = pd.DataFrame()
@@ -568,15 +656,21 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
         # find the characters at the current cluster
         i = 0
         while True:
-            characters_in_cluster = df_cluster.loc[df_cluster['cluster'] == cluster]
+            characters_in_cluster = df_cluster.loc[df_cluster["cluster"] == cluster]
             # either first iteration or there are rows in the dataframe left
-            if characters_in_cluster.shape[0] > 1 or (i > 0 and characters_in_cluster.shape[0] > 0):
-                cluster_person = characters_in_cluster.head(1)['person'].values[0]
+            if characters_in_cluster.shape[0] > 1 or (
+                i > 0 and characters_in_cluster.shape[0] > 0
+            ):
+                cluster_person = characters_in_cluster.head(1)["person"].values[0]
 
                 # get all dataframe entries of the bible for the people in the current cluster
                 # df_emotion has 3 columns: character_A, character_B, emotion
-                subset_A = df_emotion.loc[df_emotion['character_A'] == cluster_person]['character_B']
-                subset_B = df_emotion.loc[df_emotion['character_B'] == cluster_person]['character_A']
+                subset_A = df_emotion.loc[df_emotion["character_A"] == cluster_person][
+                    "character_B"
+                ]
+                subset_B = df_emotion.loc[df_emotion["character_B"] == cluster_person][
+                    "character_A"
+                ]
                 frames = [subset_A, subset_B]
                 neighbors = pd.concat(frames, sort=False).unique().tolist()
 
@@ -588,36 +682,49 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
                         found_neighbors = [cluster_person, new_neighbor]
 
                         # since already on couple has been found, add them to the dataframe
-                        log_entry = {'from': cluster_person.strip(),
-                                     'to': cluster_id}
+                        log_entry = {"from": cluster_person.strip(), "to": cluster_id}
                         cluster_log = cluster_log.append(log_entry, ignore_index=True)
 
                         # delete entry from cluster dataframe because one character can only be once in the dataframe
                         check_cluster = df_cluster.loc[
-                            (df_cluster['cluster'] == cluster) & (df_cluster['person'] == cluster_person)]
+                            (df_cluster["cluster"] == cluster)
+                            & (df_cluster["person"] == cluster_person)
+                        ]
                         df_cluster = df_cluster.drop(check_cluster.index)
 
-                        log_entry = {'from': new_neighbor.strip(),
-                                     'to': cluster_id}
+                        log_entry = {"from": new_neighbor.strip(), "to": cluster_id}
                         cluster_log = cluster_log.append(log_entry, ignore_index=True)
 
                         check_cluster = df_cluster.loc[
-                            (df_cluster['cluster'] == cluster) & (df_cluster['person'] == new_neighbor)]
+                            (df_cluster["cluster"] == cluster)
+                            & (df_cluster["person"] == new_neighbor)
+                        ]
                         df_cluster = df_cluster.drop(check_cluster.index)
 
                         # check if further neighbors exists
                         check_cluster = df_cluster.loc[
-                            (df_cluster['cluster'] == cluster) & (df_cluster['person'] == new_neighbor)
-                            & (~df_cluster['person'].isin(found_neighbors))]
+                            (df_cluster["cluster"] == cluster)
+                            & (df_cluster["person"] == new_neighbor)
+                            & (~df_cluster["person"].isin(found_neighbors))
+                        ]
 
                         # investigate those neighbors
                         empty_list = check_cluster.empty
                         if empty_list == False:
-                            cluster_log, df_cluster = investigateNeighbor(cluster, cluster_id, new_neighbor, df_cluster,
-                                                                          df_emotion, cluster_log, found_neighbors)
+                            cluster_log, df_cluster = investigateNeighbor(
+                                cluster,
+                                cluster_id,
+                                new_neighbor,
+                                df_cluster,
+                                df_emotion,
+                                cluster_log,
+                                found_neighbors,
+                            )
                 else:
                     check_cluster = df_cluster.loc[
-                        (df_cluster['cluster'] == cluster) & (df_cluster['person'] == cluster_person)]
+                        (df_cluster["cluster"] == cluster)
+                        & (df_cluster["person"] == cluster_person)
+                    ]
                     df_cluster = df_cluster.drop(check_cluster.index)
                 i += 1
             else:
@@ -626,7 +733,7 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
     # check if clusters could be found in the data
     empty_list = cluster_log.empty
     if empty_list == True:
-        print('No cluster was assigned')
+        print("No cluster was assigned")
     else:
         # apply the cluster_log to the df_emotion dataframe, such that any cluster found in the data, overrides the existing data in the frame
         df_emotion = replaceCluster(cluster_log, df_emotion)
@@ -640,6 +747,7 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
 # and changes all the other edges to the new cluster, which will be
 # formed from the concatenation
 
+
 def concat_cluster(df_emotion):
     # parameter:
     # df_emotion: pandas dataframe containing all relations
@@ -650,8 +758,10 @@ def concat_cluster(df_emotion):
     while True:
         # find cluster that either have been concatenated from other clusters
         # "cluster_[0-9]+" or "original" clusters "cluster[0-9]+"
-        cluster2cluster = df_emotion.loc[(df_emotion['character_A'].str.contains(r"cluster_?[0-9]+", regex=True)) &
-                                (df_emotion['character_B'].str.contains(r"cluster_?[0-9]+", regex=True))]
+        cluster2cluster = df_emotion.loc[
+            (df_emotion["character_A"].str.contains(r"cluster_?[0-9]+", regex=True))
+            & (df_emotion["character_B"].str.contains(r"cluster_?[0-9]+", regex=True))
+        ]
         # check if those exist
         empty_list = cluster2cluster.empty
         if empty_list == True:
@@ -660,8 +770,8 @@ def concat_cluster(df_emotion):
             # once in a row, get the first row
             row = cluster2cluster.head(1)
             # extract the cluster names
-            cluster_A = row['character_A'].values[0]
-            cluster_B = row['character_B'].values[0]
+            cluster_A = row["character_A"].values[0]
+            cluster_B = row["character_B"].values[0]
 
             # delete the row from the dataframe
             df_emotion = df_emotion.drop(row.index)
@@ -670,8 +780,12 @@ def concat_cluster(df_emotion):
             new_cluster_name = "cluster_" + str(i)
             i += 1
             # find all characters that are i in the clusters
-            involved_characters_A = df_emotion.loc[df_emotion['character_A'] == cluster_A]
-            involved_characters_B = df_emotion.loc[df_emotion['character_A'] == cluster_B]
+            involved_characters_A = df_emotion.loc[
+                df_emotion["character_A"] == cluster_A
+            ]
+            involved_characters_B = df_emotion.loc[
+                df_emotion["character_A"] == cluster_B
+            ]
 
             # join both dataframes
             frames = [involved_characters_A, involved_characters_B]
@@ -684,17 +798,20 @@ def concat_cluster(df_emotion):
                     df_emotion.loc[i, "character_A"] = new_cluster_name
     return df_emotion
 
+
 # checks if dataframe is empty
 def check_empty(dataframe):
     # parameter :
     # dataframe : pandas dataframe to be checked
 
-    #return: true / false
+    # return: true / false
     empty_list = dataframe.empty
     if empty_list == False:
         return False
     else:
         return True
+
+
 # checks if dataframe has any data
 def checkFunction(dataframe):
     # parameter :
@@ -703,8 +820,10 @@ def checkFunction(dataframe):
     if empty:
         raise Exception("dataframe is empty")
 
+
 # main functionality call to apply the cluster changes to the graph
 # question of if the cluster, the character is in can be found in the dataframe
+
 
 def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
     # parameter:
@@ -720,7 +839,9 @@ def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
     # return:
     # dataframe: relations dataframe, adjusted by the clustering, included concatenating
     # multiple cluster nodes at one character
-    file = os.path.join("csv", "bibleTA_clustered_concat" + str(min_neighbor_cluster) + ".csv")
+    file = os.path.join(
+        "csv", "bibleTA_clustered_concat" + str(min_neighbor_cluster) + ".csv"
+    )
     if load == True:
         try:
             dataframe = pd.read_csv(file)
@@ -731,18 +852,25 @@ def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
 
     if load == False:
         # find and include clusters in the graph
-        dataframe = adopt_clusters(df_cluster=df_cluster, df_emotion=df_emotion,
-                                   min_neighbor_cluster=min_neighbor_cluster)
+        dataframe = adopt_clusters(
+            df_cluster=df_cluster,
+            df_emotion=df_emotion,
+            min_neighbor_cluster=min_neighbor_cluster,
+        )
         # probe if dataframe is empty
         checkFunction(dataframe)
         # only allow one edge between two nodes
-        dataframe, _ = distillDataframe(df_bible=dataframe, load=False, threshold=0, save=False)
+        dataframe, _ = distillDataframe(
+            df_bible=dataframe, load=False, threshold=0, save=False
+        )
         # probe if dataframe is empty
         checkFunction(dataframe)
         # convert character names and cluster names to numerical nodes
         edges, color_emotion, label = convertToIGraph(dataframe=dataframe)
         # plot adjusted graph
-        plotGraph(edges, color_emotion, label, location=location, exp="3_adjusted_graph")
+        plotGraph(
+            edges, color_emotion, label, location=location, exp="3_adjusted_graph"
+        )
         # concatenate neighbor clusters
         dataframe = concat_cluster(dataframe)
         # probe if dataframe is empty
@@ -752,7 +880,9 @@ def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
 
     return dataframe
 
+
 # function to call from outside
+
 
 def main():
     # experiment name, to later save files in this folder
@@ -762,16 +892,32 @@ def main():
     os.makedirs(location, exist_ok=True)
 
     # load the bible and take up the relations of characters
-    df_emotion, label_list = getGraph(df_bible=None, load=True, threshold=5, testament="new", location=location)
+    df_emotion, label_list = getGraph(
+        df_bible=None, load=True, threshold=5, testament="new", location=location
+    )
+    # df_emotion is our distilled df?
+    # ,character_A,character_B,emotion
+    # 0, God,Abraham,0.0
+    # 1, God,ye,0.0
+    create_pickle_objects(df_emotion)
+
     # loads the clusters based on keywords to a dataframe
     df_cluster = getCluster(load=False, num_cluster=10, threshold=4, location=location)
     # apply the clusters to the dataframe and distill it
-    dataframe = adjust_graph(df_cluster=df_cluster, df_emotion=df_emotion, load=False,
-                             location=location, min_neighbor_cluster=4)
+    dataframe = adjust_graph(
+        df_cluster=df_cluster,
+        df_emotion=df_emotion,
+        load=False,
+        location=location,
+        min_neighbor_cluster=4,
+    )
     # get numerical nodes and edges from dataframe
     edges, color_emotion, label = convertToIGraph(dataframe=dataframe)
     # plot datafrane
-    plotGraph(edges, color_emotion, label, location=location, exp="4_clustered_emotion_graph")
+    plotGraph(
+        edges, color_emotion, label, location=location, exp="4_clustered_emotion_graph"
+    )
+
 
 if __name__ == "__main__":
     main()
