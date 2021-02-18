@@ -7,6 +7,7 @@ from sklearn.cluster import KMeans
 from pylab import *
 import re
 import time
+import src.pickle_handler as ph
 
 # the dataframe has been preprocessed by many other functions. However we only need a subset of this information to
 # create a graph representation of the relations.
@@ -17,14 +18,13 @@ import time
 # formate_bible should transform all rows, that contain >= 2 characters into multiple rows between all characters
 # from [lukas, mark, maria] to [[lukas, mark],[lukas, maria], [maria, mark]]
 
-# Parameter
-# df_bible : expects a pandas dataframe that consists of "characters" and "emotion" column
-
-# Return
-# df_bible_formate : pandas dataframe, that consists of 3 columns "character_A", "character_B", "emotion"
-
 
 def formate_bible(df_bible):
+    # Parameter
+    # df_bible : expects a pandas dataframe that consists of "characters" and "emotion" column
+
+    # Return
+    # df_bible_formate : pandas dataframe, that consists of 3 columns "character_A", "character_B", "emotion"
     df_bible_formate = pd.DataFrame()
     for i, row in df_bible.iterrows():
         names = row["characters"]
@@ -290,41 +290,42 @@ def Cluster2Graph(df_cluster):
         edges.append([A, B])
     return edges, label
 
-def mock_names_keywords(label_list, mock_words):
-    file = open('keywords.txt', 'r')
-    keywords = file.readlines()
-    file.close()
-    keywords = [keyword.replace("\n", "") for keyword in keywords]
-
+# function is to load the pickle objects, to process their keywords each person
+def load_pickle_objects():
+    # return
+    # res:
+    # label:
+    pickle_obj = ph.PickleHandler()
+    pickle_list = pickle_obj.load_characters()
+    labels = []
     res = []
     temp_res = []
-    for name in label_list:
-        for idx in range(mock_words):
-            check = True
-            while check:
-                rnd_num = np.random.randint(0, len(keywords),1)[0]
-                name = keywords[rnd_num]
-                if name not in temp_res:
-                    temp_res.append(keywords[rnd_num])
-                    check = False
+    for obj in pickle_list:
+        name = obj.name
+        labels.append(name)
+        most_frequent_words = obj.most_frequent_words
+
+        for word in most_frequent_words:
+            temp_res.append(word[1])
         res.append(temp_res)
         temp_res = []
 
-    return label_list, res
+    return labels, res
+
+
 
 
 # cluster keywords and create list of people in this cluster that have threshold enough keywords coming from the same cluster
-def cluster_data(num_cluster, threshold, label_list, mock_words):
+def cluster_data(num_cluster, threshold):
     # Parameter:
     # num_cluster: number of cluster centroid - results in labels for keywords, int
     # threshold: min count of cluster label to app person to cluster, int
-    # label_list: may be removed
-    # mock_words: may be removed
 
     # return:
     # df_cluster: pandas dataframe, consistent of cluster name and character
     file = os.path.join("csv", "clustered_keywords.csv")
-    characters, res = mock_names_keywords(label_list, mock_words)
+    # load the pickle objects to find keyword clusters
+    characters, res = load_pickle_objects()
     # extract distinct keywords to convert them to word-vectors and afterwards determine clusters
     distinct_res = []
     for keywords_res in res:
@@ -382,13 +383,11 @@ def cluster_data(num_cluster, threshold, label_list, mock_words):
 # getCluster loads the clusters to a dataframe. Either from csv file or by calling cluster_data()
 # dataframe is then prepared to be displayed as a graph and subsequent plotted
 
-def getCluster(load, mock_words, num_cluster, threshold, label_list, location):
+def getCluster(load, num_cluster, threshold, location):
     # parameter:
     # load: if true, load data from csv file, bool
     # num_cluster: number of cluster centroid - results in labels for keywords, int
     # threshold: min count of cluster label to app person to cluster, int
-    # label_list: may be removed
-    # mock_words: may be removed
     # exp_name: name of the experiment to save the plot, string
 
     # return:
@@ -407,7 +406,7 @@ def getCluster(load, mock_words, num_cluster, threshold, label_list, location):
     if load == False:
         # from character with keywords to a dataframe that shows edges, where
         # more keywords from one cluster have occurred than threshold says
-        df_cluster = cluster_data(num_cluster=num_cluster, threshold=threshold, label_list=label_list, mock_words=mock_words)
+        df_cluster = cluster_data(num_cluster=num_cluster, threshold=threshold)
     # convert edges to nummeric edges and prepare node labels
     edges, label = Cluster2Graph(df_cluster)
     # plot the graph
@@ -765,8 +764,7 @@ def main():
     # load the bible and take up the relations of characters
     df_emotion, label_list = getGraph(df_bible=None, load=True, threshold=5, testament="new", location=location)
     # loads the clusters based on keywords to a dataframe
-    df_cluster = getCluster(load=True, mock_words=15, num_cluster=10, threshold=4,
-                            label_list=label_list, location=location)
+    df_cluster = getCluster(load=False, num_cluster=10, threshold=4, location=location)
     # apply the clusters to the dataframe and distill it
     dataframe = adjust_graph(df_cluster=df_cluster, df_emotion=df_emotion, load=False,
                              location=location, min_neighbor_cluster=4)
