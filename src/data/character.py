@@ -1,4 +1,4 @@
-from relation import Relation
+from src.data.relation import Relation
 
 
 class Character:
