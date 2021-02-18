@@ -899,8 +899,13 @@ def main():
     # ,character_A,character_B,emotion
     # 0, God,Abraham,0.0
     # 1, God,ye,0.0
+    df_emotion.head(100)
     create_pickle_objects(df_emotion)
-
+    picklehandler =ph.PickleHandler()
+    characterlist = picklehandler.load_characters()
+    for character in characterlist:
+        print("charactername",character.get_name())
+        
     # loads the clusters based on keywords to a dataframe
     df_cluster = getCluster(load=False, num_cluster=10, threshold=4, location=location)
     # apply the clusters to the dataframe and distill it
