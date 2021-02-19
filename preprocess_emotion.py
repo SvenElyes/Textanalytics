@@ -1,53 +1,106 @@
 import re
-# import pandas as pd
 from pattern.text.en import singularize
-import spacy, en_core_web_sm
 import textacy
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 from tqdm import tqdm
-import argparse
-import numpy as np
-
 import src.dataloader as dataloader
-
-parser = argparse.ArgumentParser(description='train models for matching tasks with GT correspondences')
-parser.add_argument('--testament', type=str, default="new", metavar='X', help='{both, old, mew}')
-
-# currently not needed. may be removed later, if not needed then
-# split sentences
-def splitSentences(text):
-    # split sentences and questions
-    text = re.split('[.?]', text)
-    clean_sent = []
-    for sent in text:
-        if sent != "":
-            clean_sent.append(sent)
-    return clean_sent
-
+import spacy
+import numpy as np
 
 # try to singularize verbs to make them comparable to pos/neg bag of words.
 # is done to detect "goes" as "go" and "likes" as "like".
-def preText(text):
+# ToDo: reduce past tense!
+# https://medium.com/python-in-plain-english/text-classification-using-python-spacy-7a414abcc83a
+# bag should be done better!
+
+def preText(text, pos_bow, neg_bow):
+    # parameter:
+    # text : takes a sentence, string
+
+    # return:
+    # text: the taxt with singularized verbs, string
+    # emotion : simularity based emotion
+
     # lowers the text
     text = text.lower()
     # recognize verb pattern
     pattern = [{"POS": "VERB", "OP": "*"}, {"POS": "ADV", "OP": "*"}, {"POS": "VERB", "OP": "+"},
                {"POS": "PART", "OP": "*"}]
 
-    # nlp = en_core_web_sm.load()
-
     # extract verb pattern
-    doc = textacy.make_spacy_doc(text, lang='en_core_web_sm')
+    doc = textacy.make_spacy_doc(text, lang='en_core_web_lg')
     verbs = textacy.extract.matches(doc, pattern)
+    pos_res = []
+    neg_res = []
     for verb in verbs:
         # singularize verb, e.g. "likes" to "like"
-        text = text.replace(verb.text, singularize(verb.text))
+        singularized_verb = singularize(verb.text)
+        pos, neg = wordSimularity(pos_bow, neg_bow, singularized_verb)
+        pos_res.append(pos)
+        neg_res.append(neg)
+        text = text.replace(verb.text, singularized_verb)
 
-    return text
+    pos_res = np.mean(pos_res)
+    neg_res = np.mean(neg_res)
+
+    if pos_res > 0.5:
+        emotion = 1.0
+    elif neg_res > -0.5:
+        emotion = -1.0
+    else:
+        emotion = 0.0
+
+    return text, emotion
+# measures a similarity between a verb and 10 random from the pos/neg bag of words
+def wordSimularity(pos_bow, neg_bow, verb):
+    # parameter:
+    # pos_bow: bag of positive words, list
+    # neg_bow: bag of negative words, list
+    # verb: given verb, string
+
+    # return:
+    # pos_res: means over positive words, float
+    # neg_res: mean over negative words, float
+
+    # get english language library of spacy
+    nlp = spacy.load('en_core_web_lg')
+    # get token of verb
+    token_word = nlp(verb)
+    # take 10 random words from list
+    neg_bow = neg_bow[np.random.randint(0, len(neg_bow), 10)]
+    pos_bow = pos_bow[np.random.randint(0, len(pos_bow), 10)]
+
+    # tokenize these words
+    neg_res = []
+    neg_bow = [nlp(neg) for neg in neg_bow if nlp.vocab.has_vector(neg) == True]
+
+    pos_res = []
+    pos_bow = [nlp(pos) for pos in pos_bow if nlp.vocab.has_vector(pos) == True]
+
+    # measure similarity and mean their result
+    for token_bow in pos_bow:
+        # get similarity
+        similarity_emotion = token_word.similarity(token_bow)
+        pos_res.append(similarity_emotion)
+    pos_res = np.mean(pos_res)
+
+    # measure similarity and mean their result
+    for token_bow in neg_bow:
+        # get similarity
+        similarity_emotion = token_word.similarity(token_bow)
+        neg_res.append(similarity_emotion)
+    neg_res = np.mean(neg_res)
+
+    return pos_res, neg_res
 
 # needed to clear the text and proces it by bag of words
 def clearText(text):
+    # parameter:
+    # text : takes a sentence, string
+
+    # return:
+    # text: returns the pre processed text, string
     # removing paragraph numbers
     text = re.sub('[0-9]+.\t', '', str(text))
 
@@ -69,118 +122,82 @@ def clearText(text):
 
     # removing space after sentence
     text = re.sub('\. ', '.', str(text))
+
     return text
 
 # parameters must be enhanced if argument parser changes
-def main(testament= None):
-    # load arguments given by default or within the console like
-    args = parser.parse_args()
-    #if testament was given from outside it overrides the default parameter of args.testament by the given one
-    if testament != None:
-        args.testament = testament
-
+# saves a dataframe of its results
+# returns the converted dataframe
+def main(testament):
     # get arguments given in the console line, indicated by --<pattern> <input>
     # 600 positive bag of words - parsed from:
     # https://www.positivewordslist.com/positive-words-to-describe-personality/
     # https://www.positivewordslist.com/positive-words/
+    # parameter:
+    # testament: determines which testament should be evaluated new/old/else
+
+    # return
+    # df_bible: pandas dataframe, added with emotions
+
     file = open('pos_bag_of_word.txt', 'r')
-    pos_bag_of_words = file.readlines()
+    pos_bow = file.readlines()
     file.close()
-    pos_bag_of_words = pos_bag_of_words[0].split(",")
+    pos_bow = pos_bow[0].split(",")
 
     # 448 negative bag of words parsed from:
     # https://eqi.org/fw_neg.html
     file = open('neg_bag_of_word.txt', 'r')
-    neg_bag_of_words = file.readlines()
+    neg_bow = file.readlines()
     file.close()
-    neg_bag_of_words = neg_bag_of_words[0].split(",")
+    neg_bow = neg_bow[0].split(",")
 
     # return the part of the bible desired
     df_bible = dataloader.get_df_bible()
-    if args.testament == "new":
+    if testament == "new":
         _, df_bible = dataloader.get_old_new_testament(df_bible)
-    elif args.testament == "old":
+    elif testament == "old":
         df_bible, _ = dataloader.get_old_new_testament(df_bible)
-    elif args.testament == "both":
-        pass
     else:
         print("testament not recognized, continued with the hole bible")
-    input(df_bible.size)
-    # ToDo: may be deleted if names are given
-    '''
-    file = open('names.txt', 'r')
-    names = file.readlines()
-    mock_names = []
-    for line in names:
-        if len(line.split()) == 1:
-            line = line.replace(" ", "")
-            line = line.replace("\n", "")
-            if line not in mock_names:
-                mock_names.append(line)
-    file.close()
-    
-    df_bible['Characters'] = None
-    df_bible['Characters'] = df_bible['Characters'].astype(object)
-    
-    df_bible['keywords'] = None
-    df_bible['keywords'] = df_bible['keywords'].astype(object)
-
-    
-    file = open('keywords.txt', 'r')
-    keywords = file.readlines()
-    mock_keywords = []
-    for line in keywords:
-        if len(line.split()) == 1:
-            line = line.replace("\n", "")
-            if line not in mock_keywords:
-                mock_keywords.append(line)
-
-    # iterate the desired part of the bible
-    '''
+    # for every verse
     for i, df_verse in tqdm(df_bible.iterrows()):
         text = df_verse["text"]
 
-        # ToDo: reactivate after character data is given
         # do baysian classification in the text vor being positive / negative
         # Textblob provides in-build classifiers module to create a custom classifier. it classifies the sentence propability to be positive and negative.
         # since we are using [-1, 1] we are negating the negative propability
-        #neg_score, pos_score = [0, 0]
         _, neg_score, pos_score = TextBlob(str(text), analyzer=NaiveBayesAnalyzer()).sentiment
         if pos_score > 0.5:
-            score_textblob = pos_score
+            score_textblob = 1.0
         elif neg_score > 0.5:
-            score_textblob = -neg_score
+            score_textblob = -1.0
         else:
             score_textblob = 0
+        df_bible.loc[i, "tb_emotion"] = score_textblob
 
         # we check if the verse includes positive or negative words. positive sentences should probably include positive words.
         # check intersection between bag of words and text
         processedSentences = clearText(text)
-        set_pos = list(set(processedSentences.split()) & set(pos_bag_of_words))
-        set_neg = list(set(processedSentences.split()) & set(neg_bag_of_words))
+        # sigularize verbs and check their similarity with 10 random words of the pos_bow and neg_bow
+        text, simularity_emotion = preText(text, pos_bow, neg_bow)
+        # adds score to dataframe
+        df_bible.loc[i, "simularity_emotion"] = simularity_emotion
 
-        if len(set_pos) == len(set_neg):
-            score_bag_of_words = 0.0
-        elif len(set_pos) > len(set_neg):
-            score_bag_of_words = 1.0
-        else:
-            score_bag_of_words = -1.0
-
-        df_bible.loc[i, "tb_emotion"] = score_textblob
+        # get intersection of words in verse and bag of words pos/neg
+        set_pos = list(set(processedSentences.split()) & set(pos_bow))
+        set_neg = list(set(processedSentences.split()) & set(neg_bow))
 
         # find absolute score for the row pos/neg/neutral and update cell emotion in dataframe
-
-
-
-        score = score_bag_of_words
-        if score > 0.5:
-            df_bible.loc[i, "bow_emotion"] = 1.0
-        elif score < -0.5:
-            df_bible.loc[i, "bow_emotion"] = -1.0
+        if len(set_pos) == len(set_neg):
+            score_bow = 0.0
+        elif len(set_pos) > len(set_neg):
+            score_bow = 1.0
         else:
-            df_bible.loc[i, "bow_emotion"] = 0.0
+            score_bow = -1.0
+        df_bible.loc[i, "bow_emotion"] = score_bow
 
-        score = score_bag_of_words + score_textblob
+        # fill aggregated row; from here later calculations will be determined
+        score = score_bow + score_textblob + simularity_emotion
         if score > 0.5:
             df_bible.loc[i, "emotion"] = 1.0
         elif score < -0.5:
@@ -188,23 +205,11 @@ def main(testament= None):
         else:
             df_bible.loc[i, "emotion"] = 0.0
 
-
-
-        #rnd_numbers = np.random.randint(0, len(mock_keywords), 3)
-        #subset_keywords = [mock_keywords[idx] for idx in rnd_numbers]
-        #df_bible.at[i, "keywords"] = subset_keywords
-        # ToDO: delete after character data is given and produce new csv
-        '''
-        df_bible.loc[i, "emotion"] = np.random.randint(-4, 4, 1)
-        rnd_numbers = np.random.randint(0, 5, 1)
-        rnd_idx = np.random.randint(0, len(mock_names), rnd_numbers)
-        subset_names = [mock_names[idx] for idx in rnd_idx]
-        df_bible.at[i, "Characters"] = subset_names
-        #delete until here
-        '''
         if i % 1000 == 0:
             df_bible.to_csv(r'bibleTA_Emotion.csv')
     df_bible.to_csv(r'bibleTA_Emotion.csv')
 
+    return df_bible
+
 if __name__ == "__main__":
-    main()
+    main("both")

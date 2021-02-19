@@ -81,26 +81,22 @@ def get_old_new_testament(whole_bible):
     :param whole_bible: entirety of the bible as dataframe, as created by get_df_bible()
     :return: separated old and new testament in tuple (old, new)
     :rtype: tuple
-    
+
     """
     first_matthew_verse = whole_bible.index[
-        (whole_bible["book_id"] == "Matt") & (whole_bible["verse"] == 1) & (whole_bible["chapter"] == 1)].tolist()[0]
+        (whole_bible["book_id"] == "Matt")
+        & (whole_bible["verse"] == 1)
+        & (whole_bible["chapter"] == 1)
+    ].tolist()[0]
 
-    old_testament_df = whole_bible[:(first_matthew_verse-1)]
+    old_testament_df = whole_bible[: (first_matthew_verse - 1)]
     new_testament_df = whole_bible[first_matthew_verse:]
 
     return old_testament_df, new_testament_df
 
 
 def get_df_bible():
-    """Reads bible CSV file into pandas dataframe"""
+    """Reads bible CSV file into pandas dataframe and returns it"""
     df_bible = pd.read_csv("bibleTA.csv")  # created in bibleToCSV.py
     df_bible.drop(["Unnamed: 0"], axis=1, inplace=True)
     return df_bible
-
-
-if __name__ == "__main__":
-    df_bible = get_df_bible()
-    # TODO think of new functions which will ensures less problems in the actual workflow
-    print(df_bible.tail(1))
-    #print(len(books))
