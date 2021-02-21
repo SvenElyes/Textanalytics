@@ -243,13 +243,14 @@ def convertToIGraph(dataframe):
 # load the bible as csv and can differentiate between the old an the new testament
 
 
-def loadCSV(testament):
+def loadCSV(testament, name):
     # Parameter:
     # testament : "new", "old", string
+    # give csv file name, string
 
     # Return
     # df_bible : pandas dataframe which contains the bible loaded from csv file
-    df_bible = pd.read_csv("bibleTA_Emotion.csv")
+    df_bible = pd.read_csv(name)
 
     if testament == "new":
         first_matthew_verse = df_bible.index[
@@ -275,13 +276,14 @@ def loadCSV(testament):
 # character_A to character_B mappings with an aggregated emotion value
 
 
-def getGraph(df_bible, load, threshold, testament, location):
+def getGraph(df_bible, load, threshold, testament, location, file):
     # Parameter:
     # df_bible : pandas dataframe, may be given from outside
     # load : load calculations from previous run
     # threshold : counts the encounterments of two characters in one verse, int
     # testament : "old", "new", else both testaments, string
     # exp_name : name of the experiment, string
+    # file : csv file name used to load the data, string
 
     # Return:
     # df_relation : pandas dataframe of the relations, dataframe consistes of ["character_A", "character_B", "emotion"]
@@ -289,7 +291,7 @@ def getGraph(df_bible, load, threshold, testament, location):
 
     # loads bible dataframe if not given one
     if df_bible == None:
-        df_bible = loadCSV(testament=testament)
+        df_bible = loadCSV(testament=testament, name=file)
         df_bible = pd.DataFrame(data=df_bible)
 
     df_bible = formate_bible(df_bible)
@@ -884,7 +886,7 @@ def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
 # function to call from outside
 
 
-def main():
+def main(threshold_getgraph, num_cluster, threshold_getcluster, file, load):
     # experiment name, to later save files in this folder
     location = "exp/" + time.strftime("%Y%m%d_%H%M%S", time.gmtime(time.time()))
 
@@ -893,7 +895,7 @@ def main():
 
     # load the bible and take up the relations of characters
     df_emotion, label_list = getGraph(
-        df_bible=None, load=True, threshold=5, testament="new", location=location
+        df_bible=None, load=load, threshold=5, testament="new", location=location, file=file
     )
     # df_emotion is our distilled df?
     # ,character_A,character_B,emotion
@@ -907,12 +909,12 @@ def main():
         print("charactername",character.get_name())
         
     # loads the clusters based on keywords to a dataframe
-    df_cluster = getCluster(load=False, num_cluster=10, threshold=4, location=location)
+    df_cluster = getCluster(load=load, num_cluster=num_cluster, threshold=threshold_getcluster, location=location)
     # apply the clusters to the dataframe and distill it
     dataframe = adjust_graph(
         df_cluster=df_cluster,
         df_emotion=df_emotion,
-        load=False,
+        load=load,
         location=location,
         min_neighbor_cluster=4,
     )
@@ -925,4 +927,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(threshold_getgraph=5, num_cluster=10, threshold_getcluster=4, file="bibleTA_Emotion_2102.csv", load=True)
