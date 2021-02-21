@@ -133,9 +133,8 @@ def distillDataframe(df_bible, load, threshold, save):
                     frames = [subset_A, subset_B]
                     subset = pd.concat(frames, sort=False)
 
-                    empty_list = subset.empty
 
-                    if empty_list == False and subset.shape[0] > threshold:
+                    if check_empty(subset) == False and subset.shape[0] > threshold:
                         # calculate mean over emotions
                         emotion_mean = np.mean(subset["emotion"])
                         # round it to an absolute emotion (needed for coloring in graph)
@@ -166,7 +165,7 @@ def distillDataframe(df_bible, load, threshold, save):
         label = list(set(label))
         if save == True:
             df_distilled.to_csv(file)
-    return df_distilled, label
+    return df_distilled, label, load
 
 
 # plotGraph plots the graph based on its edges and edge colors and save it to the given path
@@ -295,7 +294,7 @@ def getGraph(df_bible, load, threshold, testament, location, file):
         df_bible = pd.DataFrame(data=df_bible)
 
     df_bible = formate_bible(df_bible)
-    df_relation, label_list = distillDataframe(
+    df_relation, label_list, load = distillDataframe(
         df_bible, load, threshold=threshold, save=True
     )
 
@@ -304,7 +303,7 @@ def getGraph(df_bible, load, threshold, testament, location, file):
 
     # make and plot graph + save to path
     plotGraph(edges, color_emotion, label, location=location, exp="1_emotion_graph")
-    return df_relation, label_list
+    return df_relation, label_list, load
 
 
 # Cluster2Graph is used to display the clusters in the graph to the dataframe, such that the clusters may be visual
@@ -355,10 +354,10 @@ def load_pickle_objects():
         most_frequent_words = obj.most_frequent_words
 
         for word in most_frequent_words:
-            temp_res.append(word[1])
+            temp_res.append(word[0])
         res.append(temp_res)
         temp_res = []
-
+    #print(res[0][0])
     return labels, res
 
 
@@ -370,9 +369,13 @@ def cluster_data(num_cluster, threshold):
 
     # return:
     # df_cluster: pandas dataframe, consistent of cluster name and character
-    file = os.path.join("csv", "clustered_keywords.csv")
+    file = os.path.join("csv", "clustered_keywords_" + str(num_cluster) + str(int(1/threshold)) + ".csv")
     # load the pickle objects to find keyword clusters
     characters, res = load_pickle_objects()
+
+    #res = np.array(res)
+    #print(res)
+    #input(np.shape(res))
     # extract distinct keywords to convert them to word-vectors and afterwards determine clusters
     distinct_res = []
     for keywords_res in res:
@@ -401,30 +404,29 @@ def cluster_data(num_cluster, threshold):
     keyword2cluster = {
         keyword: cluster for keyword, cluster in zip(distinct_res, clustered_words)
     }
-    clustered_res = np.empty_like(res)
 
+    clustered_res = []
+    temp = []
     for i, keywords_res in enumerate(res):
         for ii, keyword in enumerate(keywords_res):
             label = keyword2cluster[keyword]
-            clustered_res[i, ii] = label
-
-    clustered_res = clustered_res.astype(np.float)
+            temp.append(label)
+        clustered_res.append(temp)
 
     df_cluster = pd.DataFrame()
-
     # for all cluster (e.g. 4 --> 0, 1, 2, 3)
     for cluster in range(num_cluster):
         # count how often this cluster occurred in the the clusterized keywords (clustered_res == cluster) each person (axis = 1)
-        result = np.count_nonzero(clustered_res == cluster, axis=1)
-        # make node for graph (may later be turned into a cloud if possible)
-        cluster_name = "cluster" + str(cluster)
-        for i, count in enumerate(result):
-            # if keywords from same cluster have occurred more often that threshold says, they are added as edge to the graph
-            if count >= threshold:
+        for i, clustered_char in enumerate(clustered_res):
+            ct = clustered_char.count(cluster)
+            ind_threshold = threshold * len(clustered_char)
+            if ct > ind_threshold:
+                # result = np.count_nonzero(clustered_res == cluster, axis=1)
+                # make node for graph (may later be turned into a cloud if possible)
+                cluster_name = "cluster" + str(cluster)
                 # append to dataframe
                 new_row = {"person": characters[i], "cluster": cluster_name}
                 df_cluster = df_cluster.append(new_row, ignore_index=True)
-
     df_cluster.to_csv(file)
     return df_cluster
 
@@ -444,7 +446,7 @@ def getCluster(load, num_cluster, threshold, location):
     # df_cluster = pandas dataframe, consistent of cluster name and character
 
     # if load = True, load pre-evaluated csv file
-    file = os.path.join("csv", "clustered_keywords.csv")
+    file = os.path.join("csv", "clustered_keywords_" + str(num_cluster) + str(int(1/threshold)) + ".csv")
     if load == True:
         try:
             df_cluster = pd.read_csv(file)
@@ -457,11 +459,16 @@ def getCluster(load, num_cluster, threshold, location):
         # from character with keywords to a dataframe that shows edges, where
         # more keywords from one cluster have occurred than threshold says
         df_cluster = cluster_data(num_cluster=num_cluster, threshold=threshold)
-    # convert edges to nummeric edges and prepare node labels
-    edges, label = Cluster2Graph(df_cluster)
-    # plot the graph
-    plotGraph(edges, [], label, location=location, exp="2_cluster_graph")
-    return df_cluster
+
+    if check_empty(df_cluster)== False:
+        # convert edges to nummeric edges and prepare node labels
+        edges, label = Cluster2Graph(df_cluster)
+        # plot the graph
+        plotGraph(edges, [], label, location=location, exp="2_cluster_graph")
+    else:
+        print("could not add any cluster, lower threshold")
+
+    return df_cluster, load
 
 
 # apply the found clusters in the graph to the actual dataframe
@@ -522,12 +529,12 @@ def replaceCluster(cluster_log, df_emotion):
                 (df_emotion["character_A"] == character)
                 & (df_emotion["character_B"] == n)
             ]
-            empty_list = emotion.empty
-            if empty_list == True:
+            if check_empty(emotion) == True:
                 emotion = df_emotion.loc[
                     (df_emotion["character_B"] == character)
                     & (df_emotion["character_A"] == n)
                 ]
+
             emotion = emotion.values[0][3]
 
             if len(clusters) > 0:
@@ -610,9 +617,8 @@ def investigateNeighbor(
                 (df_cluster["cluster"] == cluster)
                 & (df_cluster["person"] == new_neighbor)
             ]
-            empty_list = check_cluster.empty
-            # if yes, apply cluster to graph
-            if empty_list == False:
+
+            if check_empty(check_cluster)== False:
                 # first delete the row from cluster_frame
                 df_cluster = df_cluster.drop(check_cluster.index)
                 log_entry = {"from": new_neighbor.strip(), "to": cluster_id}
@@ -711,8 +717,7 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
                         ]
 
                         # investigate those neighbors
-                        empty_list = check_cluster.empty
-                        if empty_list == False:
+                        if check_empty(check_cluster) == False:
                             cluster_log, df_cluster = investigateNeighbor(
                                 cluster,
                                 cluster_id,
@@ -733,8 +738,8 @@ def adopt_clusters(df_cluster, df_emotion, min_neighbor_cluster):
                 break
 
     # check if clusters could be found in the data
-    empty_list = cluster_log.empty
-    if empty_list == True:
+
+    if check_empty(cluster_log) == True:
         print("No cluster was assigned")
     else:
         # apply the cluster_log to the df_emotion dataframe, such that any cluster found in the data, overrides the existing data in the frame
@@ -862,7 +867,7 @@ def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
         # probe if dataframe is empty
         checkFunction(dataframe)
         # only allow one edge between two nodes
-        dataframe, _ = distillDataframe(
+        dataframe, _, _ = distillDataframe(
             df_bible=dataframe, load=False, threshold=0, save=False
         )
         # probe if dataframe is empty
@@ -894,22 +899,17 @@ def main(threshold_getgraph, num_cluster, threshold_getcluster, file, load):
     os.makedirs(location, exist_ok=True)
 
     # load the bible and take up the relations of characters
-    df_emotion, label_list = getGraph(
+    df_emotion, label_list, load = getGraph(
         df_bible=None, load=load, threshold=5, testament="new", location=location, file=file
     )
     # df_emotion is our distilled df?
     # ,character_A,character_B,emotion
     # 0, God,Abraham,0.0
     # 1, God,ye,0.0
-    df_emotion.head(100)
     create_pickle_objects(df_emotion)
-    picklehandler =ph.PickleHandler()
-    characterlist = picklehandler.load_characters()
-    for character in characterlist:
-        print("charactername",character.get_name())
-        
+
     # loads the clusters based on keywords to a dataframe
-    df_cluster = getCluster(load=load, num_cluster=num_cluster, threshold=threshold_getcluster, location=location)
+    df_cluster, load = getCluster(load=load, num_cluster=num_cluster, threshold=threshold_getcluster, location=location)
     # apply the clusters to the dataframe and distill it
     dataframe = adjust_graph(
         df_cluster=df_cluster,
@@ -927,4 +927,4 @@ def main(threshold_getgraph, num_cluster, threshold_getcluster, file, load):
 
 
 if __name__ == "__main__":
-    main(threshold_getgraph=5, num_cluster=10, threshold_getcluster=4, file="bibleTA_Emotion_2102.csv", load=True)
+    main(threshold_getgraph=5, num_cluster=4, threshold_getcluster=(1/6), file="bibleTA_Emotion_2102.csv", load=True)
