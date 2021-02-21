@@ -179,7 +179,7 @@ def main(testament):
         # check intersection between bag of words and text
         processedSentences = clearText(text)
         # sigularize verbs and check their similarity with 10 random words of the pos_bow and neg_bow
-        text, simularity_emotion = preText(text, pos_bow, neg_bow)
+        text, simularity_emotion = preText(processedSentences, pos_bow, neg_bow)
         # adds score to dataframe
         df_bible.loc[i, "simularity_emotion"] = simularity_emotion
 
@@ -205,9 +205,7 @@ def main(testament):
         else:
             df_bible.loc[i, "emotion"] = 0.0
 
-        if i % 1000 == 0:
-            df_bible.to_csv(r'bibleTA_Emotion.csv')
-    df_bible.to_csv(r'bibleTA_Emotion.csv')
+    df_bible.to_csv(r'bibleTA_prepro.csv')
 
     return df_bible
 
