@@ -533,8 +533,11 @@ def replaceCluster(cluster_log, df_emotion):
                     (df_emotion["character_B"] == character)
                     & (df_emotion["character_A"] == n)
                 ]
+            try:
+                emotion = emotion.values[0][3]
+            except:
+                emotion = emotion.values[3]
 
-            emotion = emotion.values[0][3]
 
             if len(clusters) > 0:
                 # for all clusters (may be multiple), in idea called "has clusters:"
