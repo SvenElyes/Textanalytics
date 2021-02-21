@@ -89,8 +89,7 @@ def get_old_new_testament(whole_bible):
         & (whole_bible["chapter"] == 1)
     ].tolist()[0]
 
-    print(first_matthew_verse, "FMG")
-    old_testament_df = whole_bible[:(first_matthew_verse)]
+    old_testament_df = whole_bible[: (first_matthew_verse - 1)]
     new_testament_df = whole_bible[first_matthew_verse:]
 
     return old_testament_df, new_testament_df
@@ -98,6 +97,6 @@ def get_old_new_testament(whole_bible):
 
 def get_df_bible():
     """Reads bible CSV file into pandas dataframe and returns it"""
-    df_bible = pd.read_csv("bibleTA.csv")  # created in bibleToCSV.py
+    df_bible = pd.read_csv("src/bibleTA.csv")  # created in bibleToCSV.py
     df_bible.drop(["Unnamed: 0"], axis=1, inplace=True)
     return df_bible

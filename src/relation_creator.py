@@ -1,10 +1,10 @@
 import pandas as pd
 import sys
 import json
-from pickle_handler import PickleHandler
-import keyword_extractor
+from src.pickle_handler import PickleHandler
+import src.keyword_extractor
 
-sys.path.append("./data/")
+sys.path.append(".src/data/")
 
 from character import Character
 from relation import Relation
