@@ -15,9 +15,10 @@ from nltk.tokenize import word_tokenize
 from spacy.lang.en.stop_words import STOP_WORDS
 import argparse
 parser = argparse.ArgumentParser(description='Find style templates')
-parser.add_argument('--character', type=str, default='bibleTA_characters.csv', help='name of characters csv file')
-parser.add_argument('--emotion', type=str, default='bibleTA_characters.csv', help='name of emotion csv file')
-parser.add_argument('--out', type=str, default='bibleTA_characters.csv', help='output name of csv file')
+parser.add_argument('--character', type=str, default='', help='name of characters csv file')
+parser.add_argument('--emotion', type=str, default='', help='name of emotion csv file')
+parser.add_argument('--out', type=str, default='bibleTA_emotion.csv', help='output name of csv file')
+args = parser.parse_args()
 
 def clearText(text):
     # parameter:
@@ -133,53 +134,63 @@ def wordSimularity(pos_bow, neg_bow, verb):
     neg_res = np.mean(neg_res)          
     return pos_res, neg_res
 
-file = open('pos_bag_of_word.txt', 'r')
-pos_bow = file.readlines()
-file.close()
-pos_bow = pos_bow[0].split(",")
+def main(character, emotion, out):
+    if args.emotion == "":
+        args.emotion = emotion
+    if args.character == "":
+        args.character = character
+    if args.out == "":
+        args.out = out
 
-# 448 negative bag of words parsed from:
-# https://eqi.org/fw_neg.html
-file = open('neg_bag_of_word.txt', 'r')
-neg_bow = file.readlines()
-file.close()
-neg_bow = neg_bow[0].split(",")
+    file = open('pos_bag_of_word.txt', 'r')
+    pos_bow = file.readlines()
+    file.close()
+    pos_bow = pos_bow[0].split(",")
 
-df_bible = pd.read_csv("bibleTA_Emotion_fromServer.csv")
-df_characters = pd.read_csv("bibleTA_characters_2102.csv")
-#df_bible['characters'] = df_bible['characters'].astype(object)
-names_list = []
-emotion = []
-for i, (df_b_verse, df_c_verse) in tqdm(enumerate(zip(df_bible.iterrows(), df_characters.iterrows()))):
-    text = df_b_verse[1]["text"]
-    text = clearText(text)
-    #print(df_c_verse["characters"])
-    score_bow = df_bible.loc[i, "bow_emotion"]
-    #print(score_bag_of_words)
-    score_textblob = df_bible.loc[i, "tb_emotion"]
-    #print(score_textblob)
-    #simularity_emotion = preText(text, pos_bow, neg_bow)
-    # adds score to dataframe
-    #df_bible.loc[i, "simularity_emotion"] = simularity_emotion
-    score = score_bow + score_textblob \
-    #+ simularity_emotion
-    if score > 0.75:
-        emotion.append(1.0)
-    elif score < -0.75:
-        emotion.append(-1.0)
-    else:
-        emotion.append(0.0)
+    # 448 negative bag of words parsed from:
+    # https://eqi.org/fw_neg.html
+    file = open('neg_bag_of_word.txt', 'r')
+    neg_bow = file.readlines()
+    file.close()
+    neg_bow = neg_bow[0].split(",")
 
-    if not pd.isna(df_characters.loc[i, "characters"]):
-        #input(df_characters.loc[i, "characters"])
-        names = df_characters.loc[i, "characters"]
-        #names = names.replace("|", ";")
-        names = "[" + str(names) + "]"
-    else:
-        names = "[]"
-    names_list.append(names)
+    df_bible = pd.read_csv("bibleTA_Emotion_fromServer.csv")
+    df_characters = pd.read_csv("bibleTA_characters_2102.csv")
+    #df_bible['characters'] = df_bible['characters'].astype(object)
+    names_list = []
+    emotion = []
+    for i, (df_b_verse, df_c_verse) in tqdm(enumerate(zip(df_bible.iterrows(), df_characters.iterrows()))):
+        text = df_b_verse[1]["text"]
+        text = clearText(text)
+        #print(df_c_verse["characters"])
+        score_bow = df_bible.loc[i, "bow_emotion"]
+        #print(score_bag_of_words)
+        score_textblob = df_bible.loc[i, "tb_emotion"]
+        #print(score_textblob)
+        #simularity_emotion = preText(text, pos_bow, neg_bow)
+        # adds score to dataframe
+        #df_bible.loc[i, "simularity_emotion"] = simularity_emotion
+        score = score_bow + score_textblob \
+        #+ simularity_emotion
+        if score > 0.75:
+            emotion.append(1.0)
+        elif score < -0.75:
+            emotion.append(-1.0)
+        else:
+            emotion.append(0.0)
 
-df_bible["characters"] = names_list
-df_bible["emotion"] = emotion
-#df_bible.to_csv(r'bibleTA_Emotion_2102.csv')
-df_bible.to_csv(args.out)
+        if not pd.isna(df_characters.loc[i, "characters"]):
+            #input(df_characters.loc[i, "characters"])
+            names = df_characters.loc[i, "characters"]
+            #names = names.replace("|", ";")
+            names = "[" + str(names) + "]"
+        else:
+            names = "[]"
+        names_list.append(names)
+
+    df_bible["characters"] = names_list
+    df_bible["emotion"] = emotion
+    df_bible.to_csv(args.out)
+
+if __name__ == "__main__":
+    main(character="bibleTA_characters.csv", emotion="bibleTA_Emotion_fromServer.csv", out="bibleTA_emotion.csv")
