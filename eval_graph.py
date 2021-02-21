@@ -200,7 +200,6 @@ def plotGraph(edges, color_emotion, label, location, exp):
         )
         out.save(os.path.join(location, exp + ".png"))
 
-
 # converts the distinct list to nodes and edges. Notes will be our names, which then are converted to a number using a
 # dict. Those numbers are translated into edges between character_A and character_B.
 
@@ -870,20 +869,20 @@ def adjust_graph(df_cluster, df_emotion, load, location, min_neighbor_cluster):
         dataframe, _, _ = distillDataframe(
             df_bible=dataframe, load=False, threshold=0, save=False
         )
-        # probe if dataframe is empty
-        checkFunction(dataframe)
-        # convert character names and cluster names to numerical nodes
-        edges, color_emotion, label = convertToIGraph(dataframe=dataframe)
-        # plot adjusted graph
-        plotGraph(
-            edges, color_emotion, label, location=location, exp="3_adjusted_graph"
-        )
-        # concatenate neighbor clusters
-        dataframe = concat_cluster(dataframe)
-        # probe if dataframe is empty
-        checkFunction(dataframe)
-        # save dataframe to file, to reload later
-        dataframe.to_csv(file)
+    # probe if dataframe is empty
+    checkFunction(dataframe)
+    # convert character names and cluster names to numerical nodes
+    edges, color_emotion, label = convertToIGraph(dataframe=dataframe)
+    # plot adjusted graph
+    plotGraph(
+        edges, color_emotion, label, location=location, exp="3_adjusted_graph"
+    )
+    # concatenate neighbor clusters
+    dataframe = concat_cluster(dataframe)
+    # probe if dataframe is empty
+    checkFunction(dataframe)
+    # save dataframe to file, to reload later
+    dataframe.to_csv(file)
 
     return dataframe
 
@@ -927,4 +926,4 @@ def main(threshold_getgraph, num_cluster, threshold_getcluster, file, load):
 
 
 if __name__ == "__main__":
-    main(threshold_getgraph=5, num_cluster=4, threshold_getcluster=(1/6), file="bibleTA_Emotion_2102.csv", load=True)
+    main(threshold_getgraph=5, num_cluster=4, threshold_getcluster=(1/6), file="bibleTA_emotion.csv", load=True)

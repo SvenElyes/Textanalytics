@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     join_df.main(character_csv="bibleTA_characters.csv", relation_csv="bibleTA_prepro.csv", out_csv="bibleTA_emotion.csv")
     eval_graph.main(threshold_getgraph=5, num_cluster=4, threshold_getcluster=(1 / 6),
-                    file="bibleTA_emotion.csv", load=False)
+                    file="bibleTA_emotion.csv", load=True)
 
     '''
     """mine (sven) part, schaut ob ihr was dazwischen einfuegen wollt, bzw was ihr braucht"""
