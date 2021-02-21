@@ -134,13 +134,13 @@ def wordSimularity(pos_bow, neg_bow, verb):
     neg_res = np.mean(neg_res)          
     return pos_res, neg_res
 
-def main(character, emotion, out):
+def main(character_csv, relation_csv, out_csv):
     if args.emotion == "":
-        args.emotion = emotion
+        args.emotion = relation_csv
     if args.character == "":
-        args.character = character
+        args.character = character_csv
     if args.out == "":
-        args.out = out
+        args.out = out_csv
 
     file = open('pos_bag_of_word.txt', 'r')
     pos_bow = file.readlines()
@@ -154,8 +154,8 @@ def main(character, emotion, out):
     file.close()
     neg_bow = neg_bow[0].split(",")
 
-    df_bible = pd.read_csv("bibleTA_Emotion_fromServer.csv")
-    df_characters = pd.read_csv("bibleTA_characters_2102.csv")
+    df_bible = pd.read_csv(relation_csv)
+    df_characters = pd.read_csv(character_csv)
     #df_bible['characters'] = df_bible['characters'].astype(object)
     names_list = []
     emotion = []
@@ -193,4 +193,4 @@ def main(character, emotion, out):
     df_bible.to_csv(args.out)
 
 if __name__ == "__main__":
-    main(character="bibleTA_characters.csv", emotion="bibleTA_Emotion_fromServer.csv", out="bibleTA_emotion.csv")
+    main(character_csv="bibleTA_characters.csv", relation_csv="bibleTA_prepro.csv", out_csv="bibleTA_emotion.csv")
