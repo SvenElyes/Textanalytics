@@ -1,6 +1,7 @@
-{"label": "PERSON", "pattern": "God", "id": "god"}
-{"label": "PERSON", "pattern": [{"LOWER": "the"}, {"LOWER": "lord"}], "id": "god"}
-{"label": "PERSON", "pattern": [{"LOWER": "ancient"}, {"LOWER": "of"}, {"LOWER": "days"}], "id": "god"}
+{"label": "PERSON", "pattern": "God", "id": "God"}
+{"label": "PERSON", "pattern": [{"LOWER": "the"}, {"LOWER": "lord"}], "id": "God"}
+{"label": "PERSON", "pattern": [{"LOWER": "ancient"}, {"LOWER": "of"}, {"LOWER": "days"}], "id": "God"}
+{"label": "PERSON", "pattern": [{"LOWER": "jehovah"}, {"LOWER": "god"}], "id": "God"}
 {"label": "PERSON", "pattern": "Aaron"}
 {"label": "PERSON", "pattern": "Abaddon"}
 {"label": "PERSON", "pattern": "Abagtha"}
@@ -15,17 +16,15 @@
 {"label": "PERSON", "pattern": "Abiathar"}
 {"label": "PERSON", "pattern": "Abida"}
 {"label": "PERSON", "pattern": "Abidan"}
-{"label": "PERSON", "pattern": "Abiel", "id": "Q16128781"}
-{"label": "PERSON", "pattern": "Ner", "id": "Q16128781"}
-{"label": "PERSON", "pattern": "Abigail", "id": "Q4416778"}
-{"label": "PERSON", "pattern": "Abigail", "id": "Q3603697"}
+{"label": "PERSON", "pattern": "Abiel", "id": "Abdiel"}
+{"label": "PERSON", "pattern": "Ner", "id": "Abdiel"}
+{"label": "PERSON", "pattern": "Abigail"}
 {"label": "PERSON", "pattern": "Abihu"}
 {"label": "PERSON", "pattern": "Abihud"}
-{"label": "PERSON", "pattern": [{"LOWER": "abijah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q273517"}
-{"label": "PERSON", "pattern": "Abijah", "id": "Q273517"}
+{"label": "PERSON", "pattern": [{"LOWER": "abijah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Abijah"}
+{"label": "PERSON", "pattern": "Abijah", "id": "Abijah"}
 {"label": "PERSON", "pattern": "Abimael"}
-{"label": "PERSON", "pattern": "Abimelech", "id": "Q1343803"}
-{"label": "PERSON", "pattern": "Abimelech", "id": "Q480279"}
+{"label": "PERSON", "pattern": "Abimelech"}
 {"label": "PERSON", "pattern": "Abinadab"}
 {"label": "PERSON", "pattern": "Abiram"}
 {"label": "PERSON", "pattern": "Abishag"}
@@ -51,10 +50,10 @@
 {"label": "PERSON", "pattern": "Agur"}
 {"label": "PERSON", "pattern": "Ahasuerus"}
 {"label": "PERSON", "pattern": "Ahaz"}
-{"label": "PERSON", "pattern": [{"LOWER": "ahaziah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313214"}
-{"label": "PERSON", "pattern": "Ahaziah", "id": "Q313214"}
-{"label": "PERSON", "pattern": [{"LOWER": "ahijah"}, {"LOWER": "the"}, {"LOWER": "shilonite"}], "id": "Q2590260"}
-{"label": "PERSON", "pattern": "Ahijah", "id": "Q2590260"}
+{"label": "PERSON", "pattern": [{"LOWER": "ahaziah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Ahaziah"}
+{"label": "PERSON", "pattern": "Ahaziah", "id": "Ahaziah"}
+{"label": "PERSON", "pattern": [{"LOWER": "ahijah"}, {"LOWER": "the"}, {"LOWER": "shilonite"}], "id": "Ahijah"}
+{"label": "PERSON", "pattern": "Ahijah", "id": "Ahijah"}
 {"label": "PERSON", "pattern": "Ahikam"}
 {"label": "PERSON", "pattern": "Ahimaaz"}
 {"label": "PERSON", "pattern": "Ahimelech"}
@@ -64,34 +63,32 @@
 {"label": "PERSON", "pattern": "Alukah"}
 {"label": "PERSON", "pattern": "Amalek"}
 {"label": "PERSON", "pattern": "Amasa"}
-{"label": "PERSON", "pattern": [{"LOWER": "amaziah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313237"}
-{"label": "PERSON", "pattern": "Amaziah", "id": "Q313237"}
+{"label": "PERSON", "pattern": [{"LOWER": "amaziah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Amaziah"}
+{"label": "PERSON", "pattern": "Amaziah", "id": "Amaziah"}
 {"label": "PERSON", "pattern": "Ammiel"}
 {"label": "PERSON", "pattern": "Amminadab"}
 {"label": "PERSON", "pattern": "Amnon"}
-{"label": "PERSON", "pattern": [{"LOWER": "amon"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313423"}
-{"label": "PERSON", "pattern": "Amon", "id": "Q313423"}
+{"label": "PERSON", "pattern": [{"LOWER": "amon"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Amon"}
+{"label": "PERSON", "pattern": "Amon", "id": "Amon"}
 {"label": "PERSON", "pattern": "Amos"}
 {"label": "PERSON", "pattern": "Amoz"}
 {"label": "PERSON", "pattern": "Amram"}
 {"label": "PERSON", "pattern": "Amraphel"}
 {"label": "PERSON", "pattern": "Anah"}
 {"label": "PERSON", "pattern": "Anak"}
-{"label": "PERSON", "pattern": "Andrew", "id": "Q43399"}
-{"label": "PERSON", "pattern": [{"LOWER": "andrew"}, {"LOWER": "the"}, {"LOWER": "apostle"}], "id": "Q43399"}
+{"label": "PERSON", "pattern": "Andrew", "id": "Andrew"}
+{"label": "PERSON", "pattern": [{"LOWER": "andrew"}, {"LOWER": "the"}, {"LOWER": "apostle"}], "id": "Andrew"}
 {"label": "PERSON", "pattern": "Aner"}
-{"label": "PERSON", "pattern": "Anna", "id": "Q16160844"}
-{"label": "PERSON", "pattern": "Anna", "id": "Q1774668"}
+{"label": "PERSON", "pattern": "Anna", "id": "Anna"}
 {"label": "PERSON", "pattern": "Aram"}
 {"label": "PERSON", "pattern": "Aranda"}
 {"label": "PERSON", "pattern": "Ard"}
 {"label": "PERSON", "pattern": "Arioch"}
 {"label": "PERSON", "pattern": "Arpachshad"}
-{"label": "PERSON", "pattern": [{"LOWER": "asa"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313415"}
-{"label": "PERSON", "pattern": "Asa", "id": "Q313415"}
-{"label": "PERSON", "pattern": "asaph"}
-{"label": "PERSON", "pattern": [{"LOWER": "asaph"}, {"LOWER": "son"}, {"LOWER": "of"}, {"LOWER": "Berachiah"}], "id": "Q43280403"}
-{"label": "PERSON", "pattern": "Asaph", "id": "Q43280403"}
+{"label": "PERSON", "pattern": [{"LOWER": "asa"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Asa"}
+{"label": "PERSON", "pattern": "Asa", "id": "Asa"}
+{"label": "PERSON", "pattern": [{"LOWER": "asaph"}, {"LOWER": "son"}, {"LOWER": "of"}, {"LOWER": "Berachiah"}], "id": "Asaph"}
+{"label": "PERSON", "pattern": "Asaph", "id": "Asaph"}
 {"label": "PERSON", "pattern": "Asenath"}
 {"label": "PERSON", "pattern": "Asher"}
 {"label": "PERSON", "pattern": "Ashkenaz"}
@@ -106,12 +103,12 @@
 {"label": "PERSON", "pattern": "Barak"}
 {"label": "PERSON", "pattern": "Bartimaeus"}
 {"label": "PERSON", "pattern": [{"LOWER": "baruch"}, {"LOWER": "ben"}, {"LOWER": "neriah"}]}
-{"label": "PERSON", "pattern": [{"LOWER": "barzilai"}, {"LOWER": "the"}, {"LOWER": "giladi"}], "id": "Q6710215"}
-{"label": "PERSON", "pattern": "Barzilai", "id": "Q6710215"}
+{"label": "PERSON", "pattern": [{"LOWER": "barzilai"}, {"LOWER": "the"}, {"LOWER": "giladi"}], "id": "Barzilai"}
+{"label": "PERSON", "pattern": "Barzilai", "id": "Barzilai"}
 {"label": "PERSON", "pattern": "Basemath"}
 {"label": "PERSON", "pattern": "Bathsheba"}
-{"label": "PERSON", "pattern": "Ba'al", "id": "Q590467"}
-{"label": "PERSON", "pattern": "Baal", "id": "Q590467"}
+{"label": "PERSON", "pattern": "Ba'al", "id": "Baal"}
+{"label": "PERSON", "pattern": "Baal", "id": "Baal"}
 {"label": "PERSON", "pattern": "Behemoth"}
 {"label": "PERSON", "pattern": "Bela"}
 {"label": "PERSON", "pattern": [{"LOWER": "bela"}, {"LOWER": "ben"}, {"LOWER": "beor"}]}
@@ -136,28 +133,28 @@
 {"label": "PERSON", "pattern": [{"LOWER": "carla"}, {"LOWER": "lambea"}]}
 {"label": "PERSON", "pattern": "Celidonius"}
 {"label": "PERSON", "pattern": "Chedorlaomer"}
-{"label": "PERSON", "pattern": [{"LOWER": "child"}, {"LOWER": "jesus"}], "id": "Q302"}
-{"label": "PERSON", "pattern": "Messiah", "id": "Q302"}
-{"label": "PERSON", "pattern": "Jesus", "id": "Q302"}
+{"label": "PERSON", "pattern": [{"LOWER": "child"}, {"LOWER": "jesus"}], "id": "Jesus"}
+{"label": "PERSON", "pattern": "Messiah", "id": "Jesus"}
+{"label": "PERSON", "pattern": "Jesus", "id": "Jesus"}
 {"label": "PERSON", "pattern": "Chileab"}
 {"label": "PERSON", "pattern": "Chilion"}
 {"label": "PERSON", "pattern": "Cidno"}
 {"label": "PERSON", "pattern": "Cleopas"}
 {"label": "PERSON", "pattern": "Clopas"}
-{"label": "PERSON", "pattern": [{"LOWER": "cornelius"}, {"LOWER": "the"}, {"LOWER": "centurion"}], "id": "Q435987"}
-{"label": "PERSON", "pattern": "Cornelius", "id": "Q435987"}
+{"label": "PERSON", "pattern": [{"LOWER": "cornelius"}, {"LOWER": "the"}, {"LOWER": "centurion"}], "id": "Cornelius"}
+{"label": "PERSON", "pattern": "Cornelius", "id": "Cornelius"}
 {"label": "PERSON", "pattern": "Cozbi"}
 {"label": "PERSON", "pattern": "Cush"}
-{"label": "PERSON", "pattern": [{"LOWER": "cyrus"}, {"LOWER": "the"}, {"LOWER": "great"}], "id": "Q8423"}
-{"label": "PERSON", "pattern": "Cyrus", "id": "Q8423"}
+{"label": "PERSON", "pattern": [{"LOWER": "cyrus"}, {"LOWER": "the"}, {"LOWER": "great"}], "id": "Cyrus"}
+{"label": "PERSON", "pattern": "Cyrus", "id": "Cyrus"}
 {"label": "PERSON", "pattern": "Damaris"}
 {"label": "PERSON", "pattern": "Dan"}
-{"label": "PERSON", "pattern": "Daniel", "id": "Q171724"}
-{"label": "PERSON", "pattern": "Belteshazzar", "id": "Q171724"}
+{"label": "PERSON", "pattern": "Daniel", "id": "Daniel"}
+{"label": "PERSON", "pattern": "Belteshazzar", "id": "Daniel"}
 {"label": "PERSON", "pattern": [{"LOWER": "darius"}, {"LOWER": "the"}, {"LOWER": "mede"}]}
 {"label": "PERSON", "pattern": "Dathan"}
-{"label": "PERSON", "pattern": [{"LOWER": "king"}, {"LOWER": "david"}], "id": "Q41370"}
-{"label": "PERSON", "pattern": "David", "id": "Q41370"}
+{"label": "PERSON", "pattern": [{"LOWER": "king"}, {"LOWER": "david"}], "id": "David"}
+{"label": "PERSON", "pattern": "David", "id": "David"}
 {"label": "PERSON", "pattern": "Deborah"}
 {"label": "PERSON", "pattern": "Delilah"}
 {"label": "PERSON", "pattern": "Dinah"}
@@ -175,17 +172,10 @@
 {"label": "PERSON", "pattern": "Elah"}
 {"label": "PERSON", "pattern": "Elam"}
 {"label": "PERSON", "pattern": "Eldad"}
-{"label": "PERSON", "pattern": "Eleazar", "id": "Q5354451"}
-{"label": "PERSON", "pattern": "Eleazar", "id": "Q18699300"}
-{"label": "PERSON", "pattern": "Eleazar", "id": "Q5354450"}
-{"label": "PERSON", "pattern": "Eleazar", "id": "Q2915974"}
-{"label": "PERSON", "pattern": "Eleazar", "id": "Q5354448"}
-{"label": "PERSON", "pattern": "Eleazar", "id": "Q159443"}
+{"label": "PERSON", "pattern": "Eleazar"}
 {"label": "PERSON", "pattern": "Eli"}
-{"label": "PERSON", "pattern": "Eliakim", "id": "Q9252684"}
-{"label": "PERSON", "pattern": "Eliakim", "id": "Q25799383"}
-{"label": "PERSON", "pattern": "Eliezer", "id": "Q14933103"}
-{"label": "PERSON", "pattern": "Eliezer", "id": "Q14933103"}
+{"label": "PERSON", "pattern": "Eliakim"}
+{"label": "PERSON", "pattern": "Eliezer"}
 {"label": "PERSON", "pattern": "Elihu"}
 {"label": "PERSON", "pattern": "Elijah"}
 {"label": "PERSON", "pattern": "Elimelech"}
@@ -195,10 +185,8 @@
 {"label": "PERSON", "pattern": "Elisheba"}
 {"label": "PERSON", "pattern": "Eliud"}
 {"label": "PERSON", "pattern": "Elizabeth"}
-{"label": "PERSON", "pattern": "Elon", "id": "Q44126901"}
-{"label": "PERSON", "pattern": "Elon", "id": "Q1333225"}
-{"label": "PERSON", "pattern": "Enoch", "id": "Q2495184"}
-{"label": "PERSON", "pattern": "Enoch", "id": "Q213027"}
+{"label": "PERSON", "pattern": "Elon"}
+{"label": "PERSON", "pattern": "Enoch"}
 {"label": "PERSON", "pattern": "Enos"}
 {"label": "PERSON", "pattern": "Ephrath"}
 {"label": "PERSON", "pattern": "Er"}
@@ -234,8 +222,8 @@
 {"label": "PERSON", "pattern": "Haran"}
 {"label": "PERSON", "pattern": "Harbona"}
 {"label": "PERSON", "pattern": "Havilah"}
-{"label": "PERSON", "pattern": [{"LOWER": "heber"}, {"LOWER": "the"}, {"LOWER": "kenite"}], "id": "Q13365793"}
-{"label": "PERSON", "pattern": "Heber", "id": "Q13365793"}
+{"label": "PERSON", "pattern": [{"LOWER": "heber"}, {"LOWER": "the"}, {"LOWER": "kenite"}], "id": "Heber"}
+{"label": "PERSON", "pattern": "Heber", "id": "Heber"}
 {"label": "PERSON", "pattern": "Hebron"}
 {"label": "PERSON", "pattern": "Heli"}
 {"label": "PERSON", "pattern": "Heth"}
@@ -252,7 +240,7 @@
 {"label": "PERSON", "pattern": "Hushim"}
 {"label": "PERSON", "pattern": "Ibhar"}
 {"label": "PERSON", "pattern": "Ibzan"}
-{"label": "PERSON", "pattern": "Immanuel", "id": "Q302"}
+{"label": "PERSON", "pattern": "Immanuel", "id": "Jesus"}
 {"label": "PERSON", "pattern": "Irad"}
 {"label": "PERSON", "pattern": "Isaac"}
 {"label": "PERSON", "pattern": "Isai"}
@@ -285,16 +273,16 @@
 {"label": "PERSON", "pattern": "Javan"}
 {"label": "PERSON", "pattern": "Jeconiah"}
 {"label": "PERSON", "pattern": "Jefunne"}
-{"label": "PERSON", "pattern": [{"LOWER": "jehoahaz"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q336832"}
-{"label": "PERSON", "pattern": "Jehoahaz", "id": "Q336832"}
-{"label": "PERSON", "pattern": [{"LOWER": "jehoash"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313229"}
-{"label": "PERSON", "pattern": "Jehoash", "id": "Q313229"}
+{"label": "PERSON", "pattern": [{"LOWER": "jehoahaz"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Jehoahaz"}
+{"label": "PERSON", "pattern": "Jehoahaz", "id": "Jehoahaz"}
+{"label": "PERSON", "pattern": [{"LOWER": "jehoash"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Jehoash"}
+{"label": "PERSON", "pattern": "Jehoash", "id": "Jehoash"}
 {"label": "PERSON", "pattern": "Jehoiada"}
-{"label": "PERSON", "pattern": [{"LOWER": "jehoiakim"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q319034"}
-{"label": "PERSON", "pattern": "Jehoiakim", "id": "Q319034"}
+{"label": "PERSON", "pattern": [{"LOWER": "jehoiakim"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Jehoiakim"}
+{"label": "PERSON", "pattern": "Jehoiakim", "id": "Jehoiakim"}
 {"label": "PERSON", "pattern": "Jehonadab"}
-{"label": "PERSON", "pattern": [{"LOWER": "jehoram"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313215"}
-{"label": "PERSON", "pattern": "Jehoram", "id": "Q313215"}
+{"label": "PERSON", "pattern": [{"LOWER": "jehoram"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Jehoram"}
+{"label": "PERSON", "pattern": "Jehoram", "id": "Jehoram"}
 {"label": "PERSON", "pattern": "Jehoshaphat"}
 {"label": "PERSON", "pattern": "Jehosheba"}
 {"label": "PERSON", "pattern": "Jehu"}
@@ -303,9 +291,9 @@
 {"label": "PERSON", "pattern": "Jerahmeel"}
 {"label": "PERSON", "pattern": "Jeremiah"}
 {"label": "PERSON", "pattern": "Jerimoth"}
-{"label": "PERSON", "pattern": [{"LOWER": "jesus"}, {"LOWER": "of"}, {"LOWER": "nazareth"}], "id": "Q302"}
-{"label": "PERSON", "pattern": [{"LOWER": "jesus"}, {"LOWER": "christ"}], "id": "Q302"}
-{"label": "PERSON", "pattern": "Christ", "id": "Q302"}
+{"label": "PERSON", "pattern": [{"LOWER": "jesus"}, {"LOWER": "of"}, {"LOWER": "nazareth"}], "id": "Jesus"}
+{"label": "PERSON", "pattern": [{"LOWER": "jesus"}, {"LOWER": "christ"}], "id": "Jesus"}
+{"label": "PERSON", "pattern": "Christ", "id": "Jesus"}
 {"label": "PERSON", "pattern": [{"LOWER": "jesus"}, {"LOWER": "justus"}]}
 {"label": "PERSON", "pattern": "Jethro"}
 {"label": "PERSON", "pattern": "Jetur"}
@@ -317,32 +305,28 @@
 {"label": "PERSON", "pattern": "Job"}
 {"label": "PERSON", "pattern": "Jobab"}
 {"label": "PERSON", "pattern": "Jochebed"}
-{"label": "PERSON", "pattern": "John", "id": "Q44015"}
-{"label": "PERSON", "pattern": "John", "id": "Q40662"}
+{"label": "PERSON", "pattern": "John"}
 {"label": "PERSON", "pattern": "Jokshan"}
 {"label": "PERSON", "pattern": "Joktan"}
 {"label": "PERSON", "pattern": "Jonadab"}
 {"label": "PERSON", "pattern": "Jonathan"}
-{"label": "PERSON", "pattern": "Joseph", "id": "Q128267"}
-{"label": "PERSON", "pattern": "Joseph", "id": "Q145746"}
+{"label": "PERSON", "pattern": "Joseph"}
 {"label": "PERSON", "pattern": [{"LOWER": "joseph"}, {"LOWER": "of"}, {"LOWER": "arimathea"}]}
 {"label": "PERSON", "pattern": "Joses"}
-{"label": "PERSON", "pattern": "Joshua", "id": "Q7734"}
-{"label": "PERSON", "pattern": "Joshua", "id": "Q783824"}
-{"label": "PERSON", "pattern": [{"LOWER": "joshua"}, {"LOWER": "the"}, {"LOWER": "highpriest"}], "id": "Q783824"}
-{"label": "PERSON", "pattern": "Josiah", "id": "Q313228"}
-{"label": "PERSON", "pattern": [{"LOWER": "josiah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q313228"}
+{"label": "PERSON", "pattern": "Joshua"}
+{"label": "PERSON", "pattern": [{"LOWER": "joshua"}, {"LOWER": "the"}, {"LOWER": "highpriest"}]}
+{"label": "PERSON", "pattern": "Josiah", "id": "Josiah"}
+{"label": "PERSON", "pattern": [{"LOWER": "josiah"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Josiah"}
 {"label": "PERSON", "pattern": "Josias"}
-{"label": "PERSON", "pattern": "Jotham", "id": "Q109920"}
-{"label": "PERSON", "pattern": [{"LOWER": "jotham"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Q109920"}
+{"label": "PERSON", "pattern": "Jotham", "id": "Jotham"}
+{"label": "PERSON", "pattern": [{"LOWER": "jotham"}, {"LOWER": "of"}, {"LOWER": "judah"}], "id": "Jotham"}
 {"label": "PERSON", "pattern": "Jubal"}
 {"label": "PERSON", "pattern": "Judah"}
-{"label": "PERSON", "pattern": "Jude", "id": "Q43945"}
-{"label": "PERSON", "pattern": [{"LOWER": "jude"}, {"LOWER": "brother"}, {"LOWER": "of"}, {"LOWER": "jesus"}], "id": "Q43945"}
-{"label": "PERSON", "pattern": [{"LOWER": "jude"}, {"LOWER": "thaddaeus"}], "id": "Q43945"}
-{"label": "PERSON", "pattern": [{"LOWER": "judas"}, {"LOWER": "thaddaeus"}], "id": "Q43945"}
-{"label": "PERSON", "pattern": "Judith", "id": "Q3187975"}
-{"label": "PERSON", "pattern": "Judith", "id": "Q28532552"}
+{"label": "PERSON", "pattern": "Jude", "id": "Jude"}
+{"label": "PERSON", "pattern": [{"LOWER": "jude"}, {"LOWER": "brother"}, {"LOWER": "of"}, {"LOWER": "jesus"}], "id": "Jude"}
+{"label": "PERSON", "pattern": [{"LOWER": "jude"}, {"LOWER": "thaddaeus"}], "id": "Jude"}
+{"label": "PERSON", "pattern": [{"LOWER": "judas"}, {"LOWER": "thaddaeus"}], "id": "Jude"}
+{"label": "PERSON", "pattern": "Judith"}
 {"label": "PERSON", "pattern": "Junia"}
 {"label": "PERSON", "pattern": "Magog"}
 {"label": "PERSON", "pattern": "Medad"}
