@@ -2,7 +2,7 @@ import pandas as pd
 import sys
 import json
 from src.pickle_handler import PickleHandler
-import src.keyword_extractor
+import src.keyword_extractor as keyword_extractor 
 
 sys.path.append(".src/data/")
 

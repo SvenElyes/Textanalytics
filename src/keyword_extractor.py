@@ -1,7 +1,7 @@
 """This module can extract keywords for either an entire chapter or all verses containing a character's name."""
 
 import yake
-import dataloader
+import src.dataloader as dataloader
 
 
 def get_text_for_chapter(chapter, book_id):
