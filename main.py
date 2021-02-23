@@ -23,19 +23,4 @@ if __name__ == "__main__":
     eval_graph.main(threshold_getgraph=5, num_cluster=4, threshold_getcluster=(1 / 6),
                     file="bibleTA_emotion.csv", load=True)
 
-    '''
-    """mine (sven) part, schaut ob ihr was dazwischen einfuegen wollt, bzw was ihr braucht"""
-    pickleObject = PickleHandler()
-    # clear the .pkl files before starting the process?
-
-    # this object should be the API for saving and accessing our list of relations and characters
-
-    # creating characters and relationships
-    relation_creator.create_char_relation(DISTLLED CSV)
-    relation_creator.create_character_keywords()
-
-    #WE NEED THE DISTILLED CSV FROM EVAL GRAPH for the first step
-
-    #if you need to get a list of charactes/reltaions just use pickleObject s load functions 
-    '''
-    
+ 
