@@ -48,6 +48,8 @@ Furthermore, there are sentences like "Jesus broke the bread. He shared it among
 
 As of now, we will put the task of the character traits at the end of our current development pipeline. They present a whole now topic and may be a subsequent task we will approach once we have determined the relations and keywords. 
 
+Sadly the character trait were not able to be investigated, as the time and recources were not available.
+
 ## (3) Data Analysis
 
 The bible is well documented. So well, there are several GitHub Repositories which have formatted its content to an XML/JSON/SQL state. In [this](https://github.com/bibleapi/bibleapi-bibles-json) repository, the bible is available in multiple languages, from which we will use the English version. The document structure of the json file follows an easy structure which will make it accessible for use. Example: 
@@ -75,8 +77,6 @@ This is the .head() output of the `DataFrame` containing the bible:
 ```
 ## (4) Current Code State
 
-Progress:  
-The written code progress is in an early state. Since the team members will be able to dedicate more time to the project the following weeks, more progress can be expected soon.  
 
 Code structure:  
 All the information which we will aquire in the process will be gathered in a Python class for character relations created by us. Consequently, we also introduce a character class, which will later be used to store a character's traits. After extracting all the information needed and storing it in instances of these classes, we will need a function that returns an instance of the relations class for two given instances of the character class. This information, together with the two characters in reference, is stored in an array. After determining this array, we will be able to apply it to a force directed network diagram. The mentioned application for this works with pandas, hence our use of this data structure.
