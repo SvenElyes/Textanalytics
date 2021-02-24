@@ -14,6 +14,7 @@ import src.relation_creator as relation_creator
 import src.preprocess_emotion as preprocess_emotion
 import src.join_df as join_df
 import src.eval_graph as eval_graph
+import src.character_extraction as character_extraction
 import pandas as pd
 import os
 

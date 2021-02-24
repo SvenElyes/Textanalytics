@@ -151,7 +151,7 @@ def coreference_resolution(df, text_column_name="text", start_line=0, end_line=N
     print(df.head())
     return df
 
-def extract_characters(df=None, rule_based_matching=True, use_bible_patterns=True, patterns=None, export_csv=True, csv_name="bibleTA_characters.csv"):
+def extract_characters(df=None, rule_based_matching=True, use_bible_patterns=True, patterns=None, export_csv=True, csv_name="src/csv/bibleTA_characters.csv"):
     '''Using Named Entitiy Recognition from spacy to extract character Names from given text.
 
     :type df: pandas.core.frame:DataFrame
