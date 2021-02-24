@@ -28,9 +28,15 @@ def main(testament="both"):
     else:
         df_bible = pd.read_csv("src/csv/bibleTA_prepro.csv")
 
+    if exists("src/csv/bibleTA_characters.csv") == False:
+        # hier kannst du deinen Call einfügen
+        df_characters =
+    else:
+        df_characters = pd.read_csv("src/csv/bibleTA_characters.csv")
+
     # unite two dataframes since the calculation of "bibleTA_prepro.csv" takes a substancial amount of time
     df_bible = join_df.main(character_csv="src/csv/bibleTA_characters.csv", relation_csv="src/csv/bibleTA_prepro.csv",
-                            out_csv="src/csv/bibleTA_emotion.csv", df_bible=df_bible)
+                            out_csv="src/csv/bibleTA_emotion.csv", df_bible=df_bible, df_characters=df_characters)
 
     # if a specific testament is given, reduce dataframe
     if testament == "new":
