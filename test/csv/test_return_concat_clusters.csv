@@ -1,0 +1,4 @@
+,character_A,character_B,emotion
+0,cluster1,cluster2,-1.0
+1,John,cluster2,-1.0
+2,cluster1,God,-1.0
