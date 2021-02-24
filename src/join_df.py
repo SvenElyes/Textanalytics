@@ -8,7 +8,7 @@ parser.add_argument('--emotion', type=str, default='', help='name of emotion csv
 parser.add_argument('--out', type=str, default='bibleTA_emotion.csv', help='output name of csv file')
 args = parser.parse_args()
 
-def main(character_csv, relation_csv, out_csv, df_bible):
+def main(character_csv, relation_csv, out_csv, df_bible, df_characters):
     # parameter:
     # character_csv : path to csv file with characters, string
     # relation_csv: path to csv file with relations, string
@@ -33,7 +33,8 @@ def main(character_csv, relation_csv, out_csv, df_bible):
     if not isinstance(df_bible, pd.DataFrame):
         df_bible = pd.read_csv(relation_csv)
     # load found characters
-    df_characters = pd.read_csv(character_csv)
+    if not isinstance(df_characters, pd.DataFrame):
+        df_characters = pd.read_csv(character_csv)
 
     names_list = []
     emotion = []
