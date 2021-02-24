@@ -103,9 +103,6 @@ class Test_graph_eval(unittest.TestCase):
         df_res.drop(['index'], axis=1, inplace=True)
 
         assert_frame_equal(df_emotion, df_res)
-    def test_adjust_graph(self):
-        pass
-
 
 if __name__ == "__main__":
     unittest.main()
