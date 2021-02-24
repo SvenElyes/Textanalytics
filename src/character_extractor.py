@@ -166,8 +166,8 @@ def extract_characters(df=None, rule_based_matching=True, use_bible_patterns=Tru
     :param export_csv: save df as csv on disk
     :type csv_name: string
     :param csv_name: file name for csv output
-    :return: character column
-    :rtype: pandas.core.series.Series
+    :return: df with "characters" column
+    :rtype: pandas.core.frame.DataFrame
 
     '''
     if(df is None):
@@ -187,4 +187,4 @@ def extract_characters(df=None, rule_based_matching=True, use_bible_patterns=Tru
     if(export_csv):
         df.to_csv(csv_name, encoding="utf-8", index=False)
 
-    return df["characters"]
+    return df
