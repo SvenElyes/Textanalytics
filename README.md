@@ -1,6 +1,9 @@
+
+
+
 # An Investigation of the Bible: Generating Multi-faceted Character Profiles
 
-https://github.com/jomazi/Python-Default
+
 
 ## (1) General Submission Guidelines
 
@@ -17,7 +20,7 @@ https://github.com/jomazi/Python-Default
 
 * Utilized libraries: please find the [requirements.txt](https://github.com/SvenElyes/Textanalytics/blob/main/requirements.txt) file in our repository
 
-* Contributions: In addition to our commit history, you may also refer to our GitHub issues. All members contribute to planning of the project as well as the write-up of the reports. Also, please note that Aileen commited changes as both "aileen-reichelt" and "Aileen Reichelt".
+* Contributions: In addition to our commit history, you may also refer to our GitHub issues. All members contribute to planning of the project as well as the write-up of the reports. Also, please note that Aileen and Sven commited changes as both "aileen-reichelt" and "Aileen Reichelt", "SvenElyes" and "Sven Leschber"
 
 ## (2) Project State
 
@@ -44,6 +47,8 @@ But there many more more ways to determine the relation of two characters. Assum
 Furthermore, there are sentences like "Jesus broke the bread. He shared it among his 12 apostles." He is clearly referencing Jesus, however, it only is an implicit character mention which would not be recognized if we where only looking for names. Therefore, we need to work with co-references, to extract those references. This topic will be convered by Johannes. 
 
 As of now, we will put the task of the character traits at the end of our current development pipeline. They present a whole now topic and may be a subsequent task we will approach once we have determined the relations and keywords. 
+
+Sadly the character trait were not able to be investigated, as the time and recources were not available.
 
 ## (3) Data Analysis
 
@@ -72,17 +77,27 @@ This is the .head() output of the `DataFrame` containing the bible:
 ```
 ## (4) Current Code State
 
-Progress:  
-The written code progress is in an early state. Since the team members will be able to dedicate more time to the project the following weeks, more progress can be expected soon.  
 
 Code structure:  
 All the information which we will aquire in the process will be gathered in a Python class for character relations created by us. Consequently, we also introduce a character class, which will later be used to store a character's traits. After extracting all the information needed and storing it in instances of these classes, we will need a function that returns an instance of the relations class for two given instances of the character class. This information, together with the two characters in reference, is stored in an array. After determining this array, we will be able to apply it to a force directed network diagram. The mentioned application for this works with pandas, hence our use of this data structure.
 
-There already exists a [class](https://github.com/SvenElyes/Textanalytics/blob/main/src/dataloader.py) for loading the bible data into a pandas `DataFrame` and first versions of the [character](https://github.com/SvenElyes/Textanalytics/blob/main/data/character.py) and [relation](https://github.com/SvenElyes/Textanalytics/blob/main/data/relation.py) classes. Note that a relation may not be equally strong or positive for both characters, which makes it necessary to create two relations for two characters: `Char1` &rarr; `Char2` and `Char2` &rarr; `Char1`.
+There already exists a [class](https://github.com/SvenElyes/Textanalytics/blob/main/src/dataloader.py) for loading the bible data into a pandas `DataFrame` and first versions of the [character](https://github.com/SvenElyes/Textanalytics/blob/main/src/data/character.py) and [relation](https://github.com/SvenElyes/Textanalytics/blob/main/src/data/relation.pyy) classes. Note that a relation may not be equally strong or positive for both characters, which makes it necessary to create two relations for two characters: `Char1` &rarr; `Char2` and `Char2` &rarr; `Char1`.
 
 Both classes have to be extended by further methods to process the information stored in their attributes.
 
-Within the next weeks there will be classes and functions provided for information extraction and processing. See (2) for responsibility and method.
+So that we are able to save our progress in creating characters and relations we use the [pickle](https://docs.python.org/3/library/pickle.htm) module, which is provided by the standard python library.
+
+The handling of the .pkl files and the character and relation objects is done by the [Pickle Handler](https://github.com/SvenElyes/Textanalytics/blob/main/src/pickle_handler.py) . It will be able to save and load characters from those files.
+
+On top of this, the [Relation Creator](https://github.com/SvenElyes/Textanalytics/blob/main/src/relation_creator.py) will use the picklehandler and [Keyword Extractor](https://github.com/SvenElyes/Textanalytics/blob/main/src/keyword_extractor.py ) to create all the characters and their attributes from the distilled csv and save it to .pkl files.
+
+One of the main challenges is recognizing characters in the bible and to save all characters for each verse. This is done in the [Named Entities](https://github.com/SvenElyes/Textanalytics/blob/main/src/named_entities.py)
+file, in which our bible csv is extended by a collumn containing the characters which appear in each row.
+
+To assess our relations we use the [preprocess emotion](https://github.com/SvenElyes/Textanalytics/blob/main/src/preprocess_emotion.py) file, which looks at  words which often appear in the same space as two characters and tries to assign a positive or negative connotaiton towards those words . This is done via the the two .txt files with one, containing a list of [negative words](https://github.com/SvenElyes/Textanalytics/blob/main/src/neg_bag_of_word.txt) and the other one containing a list of  [positive words](https://github.com/SvenElyes/Textanalytics/blob/main/src/pos_bag_of_word.txt).
+
+The  [eval_graph](https://github.com/SvenElyes/Textanalytics/blob/main/src/eval_graph.py) file will handle the main part of the workflow by  clustering our results and creating the graph. It uses the Keyword Extractor indirectly via the PickleHandler and creates the distilled csv (containing a CSV with distinct characters and the relationships they have with each other)  from which we will create the character objects.
+
 
 Code quality:  
 In order to ensure coherent code between all team members, we have agreed to follow the PEP-8 style guidelines, most importantly in regards to documentation. Since all aspects from naming conventions to spacing and docstrings are covered by this, we have not set any additional rules.

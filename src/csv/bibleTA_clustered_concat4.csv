@@ -1,0 +1,126 @@
+,Unnamed: 0,Unnamed: 0.1,Unnamed: 0.1.1,Unnamed: 0.1.1.1,Unnamed: 0.1.1.1.1,Unnamed: 0.1.1.1.1.1,character_A,character_B,emotion
+0,0,0,0,0,0,0,Gentiles,God,0.0
+1,1,1,1,1,1,1,Lamb,God,0.0
+2,2,2,2,2,2,2,Thou,cluster1_2,-1.0
+3,3,3,3,3,3,3,Thou,cluster1_0,-1.0
+4,4,4,4,4,4,4,Thou,cluster3_2,-1.0
+5,5,5,5,5,5,5,Thou,cluster0_0,-1.0
+6,6,6,6,6,6,6,Thou,cluster0_2,-1.0
+7,7,7,7,7,7,7,Thou,cluster3_0,-1.0
+8,8,8,8,8,8,8,God,cluster1_2,0.0
+9,9,9,9,9,9,9,God,cluster1_0,0.0
+10,10,10,10,10,10,10,God,cluster3_2,0.0
+11,11,11,11,11,11,11,God,cluster0_0,0.0
+12,12,12,12,12,12,12,God,cluster0_2,0.0
+13,13,13,13,13,13,13,God,cluster3_0,0.0
+14,14,14,14,14,14,14,cluster1_2,John,0.0
+15,15,15,15,15,15,15,cluster1_2,Simon,0.0
+16,16,16,16,16,16,16,cluster1_2,Jesus,0.0
+17,17,17,17,17,17,17,cluster1_2,James,0.0
+18,18,18,18,18,18,18,cluster1_2,Andrew,0.0
+19,19,19,19,19,19,19,cluster1_2,John the Baptist,0.0
+20,20,20,20,20,20,20,cluster1_2,Mary,0.0
+21,21,21,21,21,21,21,cluster1_2,Simon Peter,0.0
+22,22,22,22,22,22,22,John,cluster1_0,0.0
+23,23,23,23,23,23,23,John,cluster3_2,0.0
+24,24,24,24,24,24,24,John,cluster0_0,0.0
+25,25,25,25,25,25,25,John,cluster0_2,0.0
+26,26,26,26,26,26,26,John,cluster3_0,0.0
+27,27,27,27,27,27,27,ye,cluster1_0,0.0
+28,28,28,28,28,28,28,ye,cluster0_0,0.0
+29,29,29,29,29,29,29,ye,cluster3_0,0.0
+30,30,30,30,30,30,30,Moses,cluster1_0,0.0
+31,31,31,31,31,31,31,Moses,cluster0_0,0.0
+32,32,32,32,32,32,32,Moses,cluster3_0,0.0
+33,33,33,33,33,33,33,Ye,cluster1_0,0.0
+34,34,34,34,34,34,34,Ye,cluster0_0,0.0
+35,35,35,35,35,35,35,Ye,cluster3_0,0.0
+36,36,36,36,36,36,36,cluster1_0,Simon,0.0
+37,37,37,37,37,37,37,cluster1_0,Grace,0.0
+38,38,38,38,38,38,38,cluster1_0,the Holy Spirit,0.0
+39,39,39,39,39,39,39,cluster1_0,Jesus,0.0
+40,40,40,40,40,40,40,cluster1_0,Joseph,0.0
+41,41,41,41,41,41,41,cluster1_0,James,0.0
+42,42,42,42,42,42,42,cluster1_0,Son,0.0
+43,43,43,43,43,43,43,cluster1_0,loveth,0.0
+44,44,44,44,44,44,44,cluster1_0,Jacob,0.0
+45,45,45,45,45,45,45,cluster1_0,the Son of God,0.0
+46,46,46,46,46,46,46,cluster1_0,Elijah,0.0
+47,47,47,47,47,47,47,cluster1_0,Philip,0.0
+48,48,48,48,48,48,48,cluster1_0,Timothy,0.0
+49,49,49,49,49,49,49,cluster1_0,Jesus Christ,0.0
+50,50,50,50,50,50,50,cluster1_0,Andrew,0.0
+51,51,51,51,51,51,51,cluster1_0,John the Baptist,0.0
+52,52,52,52,52,52,52,cluster1_0,Mary,0.0
+53,53,53,53,53,53,53,cluster1_0,Isaac,0.0
+54,54,54,54,54,54,54,cluster1_0,Abraham,0.0
+55,55,55,55,55,55,55,cluster1_0,Verily,0.0
+56,56,56,56,56,56,56,cluster1_0,Woman,0.0
+57,57,57,57,57,57,57,cluster1_0,Paul,0.0
+58,58,58,58,58,58,58,cluster1_0,Simon Peter,0.0
+59,59,59,59,59,59,59,Simon,cluster3_2,0.0
+60,60,60,60,60,60,60,Simon,cluster0_0,0.0
+61,61,61,61,61,61,61,Simon,cluster0_2,0.0
+62,62,62,62,62,62,62,Simon,cluster3_0,0.0
+63,63,63,63,63,63,63,Grace,cluster0_0,0.0
+64,64,64,64,64,64,64,Grace,cluster3_0,0.0
+65,65,65,65,65,65,65,the Holy Spirit,cluster0_0,0.0
+66,66,66,66,66,66,66,the Holy Spirit,cluster3_0,0.0
+67,67,67,67,67,67,67,cluster3_2,Jesus,0.0
+68,68,68,68,68,68,68,cluster3_2,James,0.0
+69,69,69,69,69,69,69,cluster3_2,Andrew,0.0
+70,70,70,70,70,70,70,cluster3_2,John the Baptist,0.0
+71,71,71,71,71,71,71,cluster3_2,Mary,0.0
+72,72,72,72,72,72,72,cluster3_2,Simon Peter,0.0
+73,73,73,73,73,73,73,Silas,Paul,0.0
+74,74,74,74,74,74,74,Jesus,cluster0_0,0.0
+75,75,75,75,75,75,75,Jesus,cluster0_2,0.0
+76,76,76,76,76,76,76,Jesus,cluster3_0,0.0
+77,77,77,77,77,77,77,Joseph,cluster0_0,0.0
+78,78,78,78,78,78,78,Joseph,cluster3_0,0.0
+79,79,79,79,79,79,79,James,cluster0_0,0.0
+80,80,80,80,80,80,80,James,cluster0_2,0.0
+81,81,81,81,81,81,81,James,cluster3_0,0.0
+82,82,82,82,82,82,82,Son,cluster0_0,0.0
+83,83,83,83,83,83,83,Son,cluster3_0,0.0
+84,84,84,84,84,84,84,cluster0_0,loveth,0.0
+85,85,85,85,85,85,85,cluster0_0,Jacob,0.0
+86,86,86,86,86,86,86,cluster0_0,the Son of God,0.0
+87,87,87,87,87,87,87,cluster0_0,Elijah,0.0
+88,88,88,88,88,88,88,cluster0_0,Philip,0.0
+89,89,89,89,89,89,89,cluster0_0,Timothy,0.0
+90,90,90,90,90,90,90,cluster0_0,Jesus Christ,0.0
+91,91,91,91,91,91,91,cluster0_0,Andrew,0.0
+92,92,92,92,92,92,92,cluster0_0,John the Baptist,0.0
+93,93,93,93,93,93,93,cluster0_0,Mary,0.0
+94,94,94,94,94,94,94,cluster0_0,Isaac,0.0
+95,95,95,95,95,95,95,cluster0_0,Abraham,0.0
+96,96,96,96,96,96,96,cluster0_0,Verily,0.0
+97,97,97,97,97,97,97,cluster0_0,Woman,0.0
+98,98,98,98,98,98,98,cluster0_0,Paul,0.0
+99,99,99,99,99,99,99,cluster0_0,Simon Peter,0.0
+100,100,100,100,100,100,100,loveth,cluster3_0,0.0
+101,101,101,101,101,101,101,Jacob,Isaac,0.0
+102,102,102,102,102,102,102,Jacob,cluster3_0,0.0
+103,103,103,103,103,103,103,Jacob,Abraham,0.0
+104,104,104,104,104,104,104,the Son of God,cluster3_0,0.0
+105,105,105,105,105,105,105,Elijah,cluster3_0,0.0
+106,106,106,106,106,106,106,Philip,cluster3_0,0.0
+107,107,107,107,107,107,107,Timothy,cluster3_0,0.0
+108,108,108,108,108,108,108,Mary Magdalene,Mary,0.0
+109,109,109,109,109,109,109,Jesus Christ,cluster3_0,0.0
+110,110,110,110,110,110,110,Andrew,cluster0_2,0.0
+111,111,111,111,111,111,111,Andrew,cluster3_0,0.0
+112,112,112,112,112,112,112,John the Baptist,cluster0_2,0.0
+113,113,113,113,113,113,113,John the Baptist,cluster3_0,0.0
+114,114,114,114,114,114,114,Mary,cluster0_2,0.0
+115,115,115,115,115,115,115,Mary,cluster3_0,0.0
+116,116,116,116,116,116,116,Isaac,cluster3_0,0.0
+117,117,117,117,117,117,117,Isaac,Abraham,0.0
+118,118,118,118,118,118,118,cluster0_2,Simon Peter,0.0
+119,119,119,119,119,119,119,cluster3_0,Abraham,0.0
+120,120,120,120,120,120,120,cluster3_0,Verily,0.0
+121,121,121,121,121,121,121,cluster3_0,Woman,0.0
+122,122,122,122,122,122,122,cluster3_0,Paul,0.0
+123,123,123,123,123,123,123,cluster3_0,Simon Peter,0.0
+124,124,124,124,124,124,124,Barnabas,Paul,0.0

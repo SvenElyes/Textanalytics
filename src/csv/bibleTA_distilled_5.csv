@@ -1,0 +1,69 @@
+,character_A,character_B,emotion
+0,Jesus,Peter,0.0
+1,Jesus,Paul,0.0
+2,Jesus,Simon,0.0
+3,Jesus,Thou,-1.0
+4,Jesus,ye,0.0
+5,Jesus,Simon Peter,-1.0
+6,Jesus,the Son of God,0.0
+7,Jesus,Galilee,0.0
+8,Jesus,Philip,0.0
+9,Jesus,Joseph,0.0
+10,Jesus,David,0.0
+11,Jesus,Moses,0.0
+12,Jesus,Jesus Christ,0.0
+13,Jesus,John,-1.0
+14,Jesus,Ye,0.0
+15,Jesus,Woman,0.0
+16,Jesus,Abraham,0.0
+17,Jesus,God,0.0
+18,Jesus,Yea,0.0
+19,Jesus,Nazareth,-1.0
+20,Jesus,Timothy,0.0
+21,Jesus,Verily,0.0
+22,Jesus,Mary,0.0
+23,Jesus,Grace,0.0
+24,the Holy Spirit,God,0.0
+25,Peter,Simon,0.0
+26,Peter,Thou,-1.0
+27,Peter,Simon Peter,0.0
+28,Peter,James,0.0
+29,Peter,John,0.0
+30,Peter,Andrew,0.0
+31,Peter,God,0.0
+32,Jacob,Abraham,0.0
+33,Jacob,God,0.0
+34,Jacob,Isaac,0.0
+35,Paul,Jesus Christ,0.0
+36,Paul,God,0.0
+37,Paul,Silas,0.0
+38,Paul,Timothy,0.0
+39,Paul,Barnabas,0.0
+40,Simon,Simon Peter,0.0
+41,Simon,James,0.0
+42,Simon,John,0.0
+43,Simon,Andrew,0.0
+44,Thou,God,-1.0
+45,ye,God,0.0
+46,the Son of God,God,0.0
+47,Joseph,Mary,0.0
+48,James,John,0.0
+49,James,Andrew,0.0
+50,James,Mary,0.0
+51,Elijah,Moses,0.0
+52,Son,God,0.0
+53,Mary Magdalene,Mary,0.0
+54,Moses,God,0.0
+55,Jesus Christ,God,0.0
+56,John,Andrew,0.0
+57,John,God,-1.0
+58,John,John the Baptist,0.0
+59,Ye,God,0.0
+60,Abraham,God,0.0
+61,Abraham,Isaac,0.0
+62,God,Gentiles,0.0
+63,God,Isaac,0.0
+64,God,loveth,0.0
+65,God,Lamb,0.0
+66,God,Timothy,0.0
+67,God,Grace,0.0
