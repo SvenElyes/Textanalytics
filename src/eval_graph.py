@@ -781,7 +781,7 @@ def concat_cluster(df_emotion):
                     # change the cluster name to the new cluster name
                     # keep rows, as they will later be aggregated by distill_shrunken_df()
                     df_emotion.loc[i, "character_B"] = new_cluster_name
-    print(df_emotion)
+
     return df_emotion
 
 
