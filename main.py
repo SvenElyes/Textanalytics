@@ -30,7 +30,8 @@ def main(testament="both"):
 
     if exists("src/csv/bibleTA_characters.csv") == False:
         # hier kannst du deinen Call einfügen
-        df_characters =
+        pass
+        #df_characters =
     else:
         df_characters = pd.read_csv("src/csv/bibleTA_characters.csv")
 
@@ -46,11 +47,6 @@ def main(testament="both"):
     top = pd.DataFrame()
     columns = df_bible.columns.tolist()[1:]
 
-    for idx in np.random.randint(0, df_bible.shape[0], 10):
-        top = top.append(df_bible.loc[idx])
-    print(top)
-
-    top.to_csv("test/test_eval_graph.csv")
     # determine the graph, create pickle objects and run a clustering of keywords
     eval_graph.main(threshold_getgraph=5, num_cluster=4, threshold_getcluster=(1 / 6),
                     file="src/csv/bibleTA_emotion.csv", load=True, df_bible=df_bible)
