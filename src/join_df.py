@@ -2,11 +2,16 @@ from tqdm import tqdm
 import pandas as pd
 import argparse
 
-parser = argparse.ArgumentParser(description='Find style templates')
-parser.add_argument('--character', type=str, default='', help='name of characters csv file')
-parser.add_argument('--emotion', type=str, default='', help='name of emotion csv file')
-parser.add_argument('--out', type=str, default='bibleTA_emotion.csv', help='output name of csv file')
-args = parser.parse_args()
+
+parser = argparse.ArgumentParser(description="Find style templates")
+parser.add_argument(
+    "--character", type=str, default="", help="name of characters csv file"
+)
+parser.add_argument("--emotion", type=str, default="", help="name of emotion csv file")
+parser.add_argument(
+    "--out", type=str, default="bibleTA_emotion.csv", help="output name of csv file"
+)
+
 
 def main(character_csv, relation_csv, out_csv, df_bible, df_characters):
     # parameter:
@@ -19,15 +24,23 @@ def main(character_csv, relation_csv, out_csv, df_bible, df_characters):
     # df_bible : pandas dataframe with characters and relation information in one file
 
     print("python3 join_df.py")
-    print(" - started joining the dataframes " + str(relation_csv) + " and " + str(character_csv))
+    print(
+        " - started joining the dataframes "
+        + str(relation_csv)
+        + " and "
+        + str(character_csv)
+    )
+    try:
+        # check if parameters have been given by the console
+        if args.emotion == "":
+            args.emotion = relation_csv
+        if args.character == "":
+            args.character = character_csv
+        if args.out == "":
+            args.out = out_csv
 
-    # check if parameters have been given by the console
-    if args.emotion == "":
-        args.emotion = relation_csv
-    if args.character == "":
-        args.character = character_csv
-    if args.out == "":
-        args.out = out_csv
+    except:
+        "The code is being tested and no args are given!"
 
     # if no dataframe was given load the dataframe given in the parameters
     if not isinstance(df_bible, pd.DataFrame):
@@ -38,20 +51,22 @@ def main(character_csv, relation_csv, out_csv, df_bible, df_characters):
 
     names_list = []
     emotion = []
-    for i, (df_b_verse, df_c_verse) in tqdm(enumerate(zip(df_bible.iterrows(), df_characters.iterrows()))):
+    for i, (df_b_verse, df_c_verse) in tqdm(
+        enumerate(zip(df_bible.iterrows(), df_characters.iterrows()))
+    ):
         # get relation data to change their aggregation
         # check if they exist in dataframe
-        if 'bow_emotion' in df_b_verse[1]:
+        if "bow_emotion" in df_b_verse[1]:
             score_bow = df_b_verse[1]["bow_emotion"]
         else:
             similarity_emotion = 0.0
 
-        if 'tb_emotion' in df_b_verse[1]:
+        if "tb_emotion" in df_b_verse[1]:
             score_textblob = df_b_verse[1]["tb_emotion"]
         else:
             similarity_emotion = 0.0
 
-        if 'similarity_emotion' in df_b_verse[1]:
+        if "similarity_emotion" in df_b_verse[1]:
             score_similarity = df_b_verse[1]["similarity_emotion"]
         else:
             score_similarity = 0.0
@@ -80,10 +95,18 @@ def main(character_csv, relation_csv, out_csv, df_bible, df_characters):
     df_bible["emotion"] = emotion
 
     # save to file
-    df_bible.to_csv(args.out)
+    try:
+        df_bible.to_csv(args.out)
+    except:
+        "The file is being tested and there are no args"
     print(" - finished joining both dataframes and forwarded file")
     return df_bible
 
+
 if __name__ == "__main__":
-    main(character_csv="src/csv/bibleTA_characters.csv", relation_csv="src/csv/bibleTA_prepro.csv",
-         out_csv="src/csv/bibleTA_emotion.csv")
+    args = parser.parse_args()
+    main(
+        character_csv="src/csv/bibleTA_characters.csv",
+        relation_csv="src/csv/bibleTA_prepro.csv",
+        out_csv="src/csv/bibleTA_emotion.csv",
+    )
