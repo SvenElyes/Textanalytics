@@ -2,8 +2,8 @@ from unittest import TestCase
 import pandas as pd
 from pandas._testing import assert_frame_equal
 import spacy
+import os
 import neuralcoref
-from spacy.pipeline import EntityRuler
 import en_core_web_sm
 
 os.chdir('../')
