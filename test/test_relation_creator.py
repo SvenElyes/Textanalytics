@@ -10,7 +10,7 @@ class TestRelationcreator(TestCase):
     def test_create_char_relation(self):
 
         with patch("pickle.dump") as mock_dump:
-            df_dis = pd.read_csv("test/test_distilled.csv")
+            df_dis = pd.read_csv("test/csv/test_distilled.csv")
             create_char_relation(df_dis)
             self.assertEqual(
                 mock_dump.call_count, 2
@@ -28,7 +28,7 @@ class TestRelationcreator(TestCase):
                 with patch("src.keyword_extractor") as mock_kw:
 
                     mock_pd.read_csv.return_value = pd.read_csv(
-                        "test/test_keyword_extractor.csv"
+                        "test/csv/test_keyword_extractor.csv"
                     )
 
                     mock_pickle.load.return_value = listofc

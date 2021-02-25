@@ -8,6 +8,7 @@ bibleTA.csv # original bible file
 """
 from os.path import exists
 
+
 import src.dataloader as dataloader
 import src.pickle_handler as pickle_handler
 import src.relation_creator as relation_creator
@@ -22,10 +23,10 @@ import numpy as np
 def main(testament="both"):
     os.makedirs("src/csv", exist_ok=True)
     df_bible = None
-
+    df_bible = preprocess_emotion.main("both", None)
     # check if a dataframe is given or start setting up on by preprocess_emotion.main()
     if exists("src/csv/bibleTA_prepro.csv") == False:
-        df_bible = preprocess_emotion.main("both")
+        df_bible = preprocess_emotion.main("both", None, "csv/bibleTA_prepro.csv")
     else:
         df_bible = pd.read_csv("src/csv/bibleTA_prepro.csv")
 

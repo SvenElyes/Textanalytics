@@ -101,3 +101,8 @@ The  [eval_graph](https://github.com/SvenElyes/Textanalytics/blob/main/src/eval_
 
 Code quality:  
 In order to ensure coherent code between all team members, we have agreed to follow the PEP-8 style guidelines, most importantly in regards to documentation. Since all aspects from naming conventions to spacing and docstrings are covered by this, we have not set any additional rules.
+
+
+
+## (5) TESTING
+Used to run the tests via the command `python3 -m unitttest`. For some reason this didnt seem to work, the last day before the deadline. So we wrote a little programm runalltest.py which is called via `python3 runalltest.py` and which will call all test file individually. Sorry for the inconvinience!
