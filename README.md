@@ -93,6 +93,7 @@ On top of this, the [Relation Creator](https://github.com/SvenElyes/Textanalytic
 
 One of the main challenges is recognizing characters in the bible and to save all characters for each verse. This is done in the [Named Entities](https://github.com/SvenElyes/Textanalytics/blob/main/src/named_entities.py)
 file, in which our bible csv is extended by a collumn containing the characters which appear in each row.
+The functions from character_extractor.py run only with the default parameters correctly. The tests for other values are in progress.
 
 To assess our relations we use the [preprocess emotion](https://github.com/SvenElyes/Textanalytics/blob/main/src/preprocess_emotion.py) file, which looks at  words which often appear in the same space as two characters and tries to assign a positive or negative connotaiton towards those words . This is done via the the two .txt files with one, containing a list of [negative words](https://github.com/SvenElyes/Textanalytics/blob/main/src/neg_bag_of_word.txt) and the other one containing a list of  [positive words](https://github.com/SvenElyes/Textanalytics/blob/main/src/pos_bag_of_word.txt).
 
@@ -106,3 +107,5 @@ In order to ensure coherent code between all team members, we have agreed to fol
 
 ## (5) TESTING
 All the test have been performed using `python3 -m unitttest`. This call has to be made in the root directory of the project, not in the test folder.
+
+The tests of the file "test_character_extractor.py" still throw errors for some of the parameters. However, the functionality for the default parameters is given.
