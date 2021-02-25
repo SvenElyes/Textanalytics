@@ -105,4 +105,4 @@ In order to ensure coherent code between all team members, we have agreed to fol
 
 
 ## (5) TESTING
-All the test have been performed using `python3 -m unitttest`
+All the test have been performed using `python3 -m unitttest`. This call has to be made in the root directory of the project, not in the test folder.
