@@ -1,11 +1,10 @@
-import dataloader
+import src.dataloader as dataloader
 import pandas as pd
 import spacy
 import neuralcoref
 from spacy import displacy
 from spacy.pipeline import EntityRuler
 import en_core_web_sm
-
 
 
 def get_characters_from_text(text, nlp):
@@ -22,7 +21,7 @@ def get_characters_from_text(text, nlp):
     characters = set()
     for entity in doc.ents:
         if entity.label_ == "PERSON":
-            if(entity.ent_id_==""):
+            if entity.ent_id_ == "":
                 characters.add(entity.text)
             else:
                 characters.add(entity.ent_id_)
@@ -55,8 +54,8 @@ def add_character_column(df, nlp):
     """
     df.insert(len(df.columns), "characters", None, True)
     for i in range(len(df)):
-        characters = get_characters_from_text(df.loc[i, ("resolved_text")], nlp)
-        df.loc[i, ("characters")] = "|".join(characters)
+        characters = get_characters_from_text(df.loc[i, "resolved_text"], nlp)
+        df.loc[i, "characters"] = "|".join(characters)
 
 
 def concat_verses(text_column, start=None, end=None):
@@ -73,14 +72,17 @@ def concat_verses(text_column, start=None, end=None):
     :rtype: string
 
     """
-    if start==None: start=0
-    if (end>=len(text_column)): end=len(text_column)-1
+    if start is None:
+        start = 0
+    if end >= len(text_column):
+        end = len(text_column)-1
     text = ""
     for i in range(end-start+1):
         text += str(text_column[start+i])
         text += "|"
     
     return text
+
 
 def resolve_coreferences(text, greedy, dist_max, match_dist_max, old_english_conv_dict, separator="|"):
     '''Resolve coreferences inside a given text.
@@ -105,7 +107,7 @@ def resolve_coreferences(text, greedy, dist_max, match_dist_max, old_english_con
     '''
     nlp = en_core_web_sm.load()
     neuralcoref.add_to_pipe(nlp, greedyness=greedy, max_dist=dist_max, dist_max_match=match_dist_max)
-    if(old_english_conv_dict):
+    if old_english_conv_dict:
         nlp.get_pipe('neuralcoref').set_conv_dict({'Thou': 'You', 'Thee': 'You', 'Thy': 'Your', 'Thine': 'Your', 'Ye': 'You'})
     doc = nlp(text)
     resolved = doc._.coref_resolved
@@ -139,17 +141,18 @@ def coreference_resolution(df, text_column_name="text", start_line=0, end_line=N
 
     '''
     df.insert(len(df.columns), "resolved_text", None, True)
-    if(end_line==None):
+    if end_line is None:
         end_line = len(df[text_column_name])-1
-    while(start_line <= len(df)-1 and start_line<=end_line):        
+    while start_line <= len(df)-1 and start_line <= end_line:
         text = concat_verses(df[text_column_name], start_line, start_line+999)
         resolved = resolve_coreferences(text, greedyness, max_dist, max_dist_match, old_english_conv_dict)
         for i in range(len(resolved)-1):
-            df.loc[start_line+i, ("resolved_text")] = resolved[i]
+            df.loc[start_line+i, "resolved_text"] = resolved[i]
         start_line += 1000
     print("resolved")
     print(df.head())
     return df
+
 
 def extract_characters(df=None, rule_based_matching=True, use_bible_patterns=True, patterns=None, export_csv=True, csv_name="src/csv/bibleTA_characters.csv"):
     '''Using Named Entitiy Recognition from spacy to extract character Names from given text.
@@ -170,21 +173,21 @@ def extract_characters(df=None, rule_based_matching=True, use_bible_patterns=Tru
     :rtype: pandas.core.frame.DataFrame
 
     '''
-    if(df is None):
+    if df is None:
         df = dataloader.get_df_bible()
     nlp = en_core_web_sm.load()
     
-    if(rule_based_matching and use_bible_patterns):
+    if rule_based_matching and use_bible_patterns:
         ruler = EntityRuler(nlp, validate=True, overwrite_ents=True).from_disk("src/patterns.jsonl")
         nlp.add_pipe(ruler)
-    elif(rule_based_matching and patterns is not None):
+    elif rule_based_matching and patterns is not None:
         ruler = EntityRuler(nlp)
         ruler.add_patterns(patterns)
         nlp.add_pipe(ruler)
 
     add_character_column(df, nlp)
 
-    if(export_csv):
+    if export_csv:
         df.to_csv(csv_name, encoding="utf-8", index=False)
 
     return df
