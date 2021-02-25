@@ -3,7 +3,6 @@ import pandas as pd
 from pandas._testing import assert_frame_equal
 import spacy
 import os
-import neuralcoref
 import en_core_web_sm
 
 import src.character_extractor as character_extractor
