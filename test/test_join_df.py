@@ -11,10 +11,10 @@ import src.join_df as join_df
 class Test_join_df(unittest.TestCase):
     def test_main(self):
 
-        emotion = pd.read_csv("test/csv/join_emotion_test.csv")
-        characters = pd.read_csv("test/csv/join_characters_test.csv")
-        res = join_df.main("", "", "csv/out.csv", emotion, characters)
-        out = pd.read_csv("test/csv/join_result_test.csv")
+        emotion = pd.read_csv("test/csv_test/join_emotion_test.csv")
+        characters = pd.read_csv("test/csv_test/join_characters_test.csv")
+        res = join_df.main("", "", "test/csv_test/out.csv", emotion, characters)
+        out = pd.read_csv("test/csv_test/join_result_test.csv")
         out.sort_index(axis=1) == res.sort_index(axis=1)
         out = out[
             [
