@@ -1,0 +1,5 @@
+,character_A,character_B,emotion
+0,John,God,-1.0
+1,God,John,-1.0
+2,Herodias,John,1.0
+3,John,Herodias,0.0

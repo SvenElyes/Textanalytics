@@ -23,7 +23,6 @@ import numpy as np
 def main(testament="both"):
     os.makedirs("src/csv", exist_ok=True)
     df_bible = None
-    df_bible = preprocess_emotion.main("both", None)
     # check if a dataframe is given or start setting up on by preprocess_emotion.main()
     if exists("src/csv/bibleTA_prepro.csv") == False:
         df_bible = preprocess_emotion.main("both", None, "csv/bibleTA_prepro.csv")
