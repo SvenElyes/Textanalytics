@@ -105,4 +105,4 @@ In order to ensure coherent code between all team members, we have agreed to fol
 
 
 ## (5) TESTING
-Used to run the tests via the command `python3 -m unitttest`. For some reason this didnt seem to work, the last day before the deadline. So we wrote a little programm runalltest.py which is called via `python3 runalltest.py` and which will call all test file individually. Sorry for the inconvinience!
+All the test have been performed using `python3 -m unitttest`
