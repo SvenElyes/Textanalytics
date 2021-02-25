@@ -15,7 +15,7 @@ import src.relation_creator as relation_creator
 import src.preprocess_emotion as preprocess_emotion
 import src.join_df as join_df
 import src.eval_graph as eval_graph
-import src.character_extractor as character_extractor
+#import src.character_extractor as character_extractor
 import pandas as pd
 import os
 import numpy as np
@@ -28,13 +28,14 @@ def main(testament="both"):
         df_bible = preprocess_emotion.main("both", None, "csv/bibleTA_prepro.csv")
     else:
         df_bible = pd.read_csv("src/csv/bibleTA_prepro.csv")
-
+    '''
     if exists("src/csv/bibleTA_characters.csv") == False:
         df_raw_bible = dataloader.get_df_bible()
         df_resolved = character_extractor.coreference_resolution(df_raw_bible)
         df_characters = character_extractor.extract_characters(df_resolved)
     else:
-        df_characters = pd.read_csv("src/csv/bibleTA_characters.csv")
+    '''
+    df_characters = pd.read_csv("src/csv/bibleTA_characters.csv")
 
     # unite two dataframes since the calculation of "bibleTA_prepro.csv" takes a substancial amount of time
     df_bible = join_df.main(character_csv="src/csv/bibleTA_characters.csv", relation_csv="src/csv/bibleTA_prepro.csv",
