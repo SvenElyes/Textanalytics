@@ -18,11 +18,11 @@ class Test_preprocess_emotion(unittest.TestCase):
         self.assertEqual(out, check)
 
     def test_main(self):
-        prepro_in = pd.read_csv("test/csv/prepro_in.csv")
-        df_bible = preprocess_emotion.main("", prepro_in, "test/csv/out.csv")
+        prepro_in = pd.read_csv("test/csv_test/prepro_in.csv")
+        df_bible = preprocess_emotion.main("", prepro_in, "test/csv_test/out.csv")
         # dropped from evaluation because it uses randomness
         df_bible.drop(["similarity_emotion"], axis=1, inplace=True)
-        prepro_out = pd.read_csv("test/csv/prepro_out.csv")
+        prepro_out = pd.read_csv("test/csv_test/prepro_out.csv")
         prepro_out = prepro_out[
             ["Unnamed: 0", "characters", "text", "tb_emotion", "bow_emotion", "emotion"]
         ]

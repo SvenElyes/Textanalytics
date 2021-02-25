@@ -12,8 +12,8 @@ import src.eval_graph as eval_graph
 
 class Test_graph_eval(unittest.TestCase):
     def test_loadCSV(self):
-        function_return = eval_graph.loadCSV("both", "src/csv_test/bibleTA_emotion.csv")
-        base = pd.read_csv("src/csv_test/bibleTA_emotion.csv")
+        function_return = eval_graph.loadCSV("both", "test/csv_test/bibleTA_emotion.csv")
+        base = pd.read_csv("test/csv_test/bibleTA_emotion.csv")
 
         assert_frame_equal(function_return, base)
 
@@ -78,7 +78,7 @@ class Test_graph_eval(unittest.TestCase):
     def test_adopt_clusters(self):
         df_incluster = pd.read_csv("test/csv_test/test_return_incluster.csv")
         df_incluster.drop(["Unnamed: 0"], axis=1, inplace=True)
-        df_bible = pd.read_csv("test/csv/test_eval_graph.csv")
+        df_bible = pd.read_csv("test/csv_test/test_eval_graph.csv")
         formated_bible = eval_graph.formate_bible(df_bible)
         function_return, label, load = eval_graph.distillDataframe(
             formated_bible, False, 0, False
