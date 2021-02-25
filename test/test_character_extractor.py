@@ -6,6 +6,8 @@ import neuralcoref
 from spacy.pipeline import EntityRuler
 import en_core_web_sm
 
+os.chdir('../')
+
 import src.character_extractor as character_extractor
 import src.dataloader as dataloader
 
